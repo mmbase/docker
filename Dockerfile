@@ -10,10 +10,15 @@ RUN apt-get -y install git make gcc nasm pkg-config libx264-dev libxext-dev libx
     make install
 
 
-RUN rm -rf FFmpeg
+RUN rm -rf FFmpeg && apt-get -y remove make gcc nasm pkg-config  libx264-dev libxext-dev libxfixes-dev zlib1g-dev
 
+# graphviz, figlet: used by some tools in mmbase
+# libxrender1 libxtst6 libxi6: used by awt (used by tagstripper)
+# maven: to build
+# nodejs: build @ github
+#
 RUN apt-get -y upgrade && \
-    apt-get -y install imagemagick graphviz figlet less curl maven nodejs
+    apt-get -y install imagemagick graphviz figlet less curl maven nodejs libxrender1 libxtst6 libxi6
 
 
 # the maven2 package of this debian doesn't work with java 5
