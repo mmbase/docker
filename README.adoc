@@ -1,0 +1,14 @@
+= MMBase Docker Image
+
+This is currently used to https://github.com/mmbase/mmbase/actions[build MMBase].
+
+It contains the tools necessary for that. I.e. the build tools itself, but some tests also need the command line some of the MMBase functionality needs when running, like
+
+- ImageMagick
+- FFMpeg
+
+
+This means that this image probably is also useful when _running_ MMBase.
+
+
+It is published at https://hub.docker.com/repository/docker/mmbase/env[hub.docker.com]
