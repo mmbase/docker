@@ -1,9 +1,9 @@
 FROM mmbase/env:latest
-ENV VERSION=10.0.12
+ENV TOMCAT_VERSION=9.0.54
 ENV CATALINA_BASE=/catalina_base
 
-RUN curl https://dlcdn.apache.org/tomcat/tomcat-10/v$VERSION/bin/apache-tomcat-$VERSION.tar.gz | tar zxf - && \
-    ln -s apache-tomcat-$VERSION tomcat && \
+RUN curl https://dlcdn.apache.org/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | tar zxf - && \
+    ln -s apache-tomcat-$TOMCAT_VERSION tomcat && \
     mkdir $CATALINA_BASE && \
     adduser --disabled-password --gecos '' tomcat && \
     chown -R tomcat $CATALINA_BASE && \
