@@ -1,0 +1,57 @@
+<Server port="8004" shutdown="SHUTDOWN" >
+
+  <!-- Used by Manager webapp -->
+
+  <GlobalNamingResources>
+
+    <Resource name="UserDatabase" auth="Container"
+              type="org.apache.catalina.UserDatabase"
+              description="User database that can be updated and saved"
+              factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+              pathname="conf/tomcat-users.xml" />
+  </GlobalNamingResources>
+
+  <Service name="Catalina">
+
+
+    <Connector port="8080"
+               protocol="HTTP/1.1"
+               maxThreads="2"
+               connectionTimeout="20000"
+               compression="true"
+               redirectPort="8443" />
+
+    <Engine name="Catalina" defaultHost="localhost" >
+      <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+             resourceName="UserDatabase" />
+      <Valve
+            className="org.apache.catalina.valves.AccessLogValve"
+            directory="logs"  prefix="catalina_access_log." suffix=".txt"
+            pattern='%h %S %l %u %t "%r" %s %b' />
+
+        <!--
+            To test virtual hosts.
+        <Host
+            name="cj.localhost"
+            debug="1"
+            appBase="webapps"
+            unpackWARs="false"
+            autoDeploy="false">
+        </Host>
+        -->
+        <Host
+            xmlValidation="false"
+            xmlNamespaceAware="false"
+            name="localhost"
+            appBase="webapps"
+            unpackWARs="false"
+            autoDeploy="false">
+          <!--
+           <Listener className="org.apache.catalina.startup.UserConfig"
+                     directoryName="public_html"
+                     userClass="org.apache.catalina.startup.PasswdUserDatabase"/>
+           -->
+        </Host>
+    </Engine>
+  </Service>
+</Server>

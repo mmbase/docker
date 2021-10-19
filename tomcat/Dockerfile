@@ -10,7 +10,9 @@ RUN curl https://dlcdn.apache.org/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-to
     chmod -R o+r /tomcat && \
     rm -rf /tomcat/webapps /tomcat/logs /tomcat/temp && \
     find /tomcat/ -type d -exec chmod o+x {} + && \
-    chmod o+x /tomcat/bin/*.sh
+    chmod o+x /tomcat/bin/*.sh && \
+    mkdir $CATALINA_BASE/lib && \
+    curl https://repo1.maven.org/maven2/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2.jar -o $CATALINA_BASE/lib/javax.mail-1.6.2.jar
 
 USER tomcat
 COPY  --chown=tomcat:tomcat catalina /$CATALINA_BASE
