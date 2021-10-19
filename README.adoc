@@ -1,22 +1,20 @@
 = MMBase Docker Images
 :toc:
 
-I created a few docker image to ease running MMBase in these new ages.
-
+I created a few docker images to ease running and building MMBase in these new ages.
 
 They are published at https://hub.docker.com/orgs/mmbase/repositories[hub.docker.com]
-
 
 == mmbase/env:latest
 
 This is currently used to https://github.com/mmbase/mmbase/actions[build MMBase].
 
-It contains the tools necessary for that. I.e. the build tools itself, but some tests also need the command line tool which some of the MMBase functionality needs when running, like
+It contains the tools necessary for that. I.e. the build tools itself, but some tests also need the command line tools which some MMBase functionality needs when running, like
 
 - ImageMagick
 - FFMpeg
 
-This means that this image is also useful when _running_ MMBase.
+This means that this image is also useful when _running_ MMBase itself
 
 == mmbase/tomcat:latest
 
@@ -24,7 +22,7 @@ This image is based on `mmbase/env` and sets up also a tomcat. Without any appli
 
 == mmbase/example-webapp:latest
 
-This e.g. isthen based on `mmbase/tomcat` but also installs the 'example-webapp'.
+This e.g. is then based on `mmbase/tomcat` but also installs the 'example-webapp' (currently `1.9-SNAPSHOT`)
 
 You may run it like so:
 [source, base]
