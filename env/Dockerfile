@@ -1,6 +1,9 @@
 #FROM nortthon/java5
 FROM adoptopenjdk/openjdk8:debian-slim
 
+LABEL org.mmbase.image.authors="michiel@mmbase.org"
+LABEL org.mmbase.image.description="MMBase environment which can be used for building and running it"
+
 RUN apt-get -y update && apt-get -y upgrade
 
 # we need ffmpeg for streams contribution. This is the most expensive step. Do it first.

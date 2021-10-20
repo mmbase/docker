@@ -1,15 +1,33 @@
 
-NAME=mmbase/env
+.INTERMEDIATE: %.md %.xml README.md
+.PHONY: explore
 
 docker: Dockerfile
 	docker build -t $(NAME):latest .
 	touch $@
 
-push:
+push: pushimage pushrm
+
+pushimage: docker
 	docker push $(NAME):latest
+	touch $@
+
+#https://github.com/christian-korneck/docker-pushrm
+pushrm: README.md
+	docker pushrm -D $(NAME):latest --file $<
+	touch $@
+
+%.xml: %.adoc
+	asciidoc -b docbook $<
+
+%.md: %.xml
+	pandoc -f docbook -t gfm $< -o $@
 
 explore: docker
-	docker run -it $(NAME) bash
+	docker run -it --entrypoint bash $(NAME)
+
+root: docker
+	docker run -it --entrypoint bash -u root $(NAME)
 
 clean:
-	rm docker
+	rm -f docker pushrm pushimage README.xml README.md

@@ -5,29 +5,7 @@ I created a few docker images to ease running and building MMBase in these new a
 
 They are published at https://hub.docker.com/orgs/mmbase/repositories[hub.docker.com]
 
-== mmbase/env:latest
+include::env/README.adoc[]
+include::tomcat/README.adoc[]
+include::example/README.adoc[]
 
-This is currently used to https://github.com/mmbase/mmbase/actions[build MMBase].
-
-It contains the tools necessary for that. I.e. the build tools itself, but some tests also need the command line tools which some MMBase functionality needs when running, like
-
-- ImageMagick
-- FFMpeg
-
-This means that this image is also useful when _running_ MMBase itself
-
-== mmbase/tomcat:latest
-
-This image is based on `mmbase/env` and sets up also a tomcat. Without any application though. It basically serves as a base image for other images containing actual applications
-
-== mmbase/example-webapp:latest
-
-This e.g. is then based on `mmbase/tomcat` but also installs the 'example-webapp' (currently `1.9-SNAPSHOT`)
-
-You may run it like so:
-[source, base]
-----
-docker run --name mmbase-example-webapp -p 8080:8080 mmbase/example-webapp:latest
-----
-
-This will start the 'example' application on 8080. It is running on a non-persistent hsql database then.

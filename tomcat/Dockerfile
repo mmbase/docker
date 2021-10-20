@@ -1,4 +1,9 @@
 FROM mmbase/env:latest
+
+LABEL org.mmbase.image.authors="michiel@mmbase.org"
+LABEL org.mmbase.image.description="MMBase environment with (an empty) tomcat"
+
+
 ENV TOMCAT_VERSION=9.0.54
 ENV CATALINA_BASE=/catalina_base
 
