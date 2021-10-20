@@ -13,8 +13,9 @@ pushimage: docker
 	touch $@
 
 #https://github.com/christian-korneck/docker-pushrm
-pushrm: README.md
-	docker pushrm -D $(NAME):latest --file $<
+pushrm: README.md docker
+	export DESCRIPTION=`docker inspect $(NAME) --format '{{ index .Config.Labels "org.mmbase.image.description"}}'` ; \
+	docker pushrm -D $(NAME):latest --file $< -s "$${DESCRIPTION}"
 	touch $@
 
 %.xml: %.adoc
