@@ -1,5 +1,4 @@
-
-== mmbase/example-webapp:latest
+= mmbase/example-webapp:latest
 
 This e.g. is then based on `mmbase/tomcat` but also installs the 'example-webapp' (currently `1.9-SNAPSHOT`)
 

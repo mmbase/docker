@@ -5,7 +5,14 @@ I created a few docker images to ease running and building MMBase in these new a
 
 They are published at https://hub.docker.com/orgs/mmbase/repositories[hub.docker.com]
 
+:leveloffset: +1
+
 include::env/README.adoc[]
+
 include::tomcat/README.adoc[]
+
 include::example/README.adoc[]
+
+:leveloffset: -1
+
 

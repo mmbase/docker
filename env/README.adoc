@@ -1,4 +1,4 @@
-== mmbase/env:latest
+= mmbase/env:latest
 
 This is currently used to https://github.com/mmbase/mmbase/actions[build MMBase].
 
