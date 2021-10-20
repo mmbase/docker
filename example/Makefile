@@ -1,4 +1,4 @@
-include ../Makefile
+include ../docker.mk
 NAME=mmbase/example-webapp
 
 
