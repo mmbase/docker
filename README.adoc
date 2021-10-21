@@ -19,6 +19,8 @@ include::tomcat/README.adoc[]
 
 include::example/README.adoc[]
 
+include::build/README.adoc[]
+
 :leveloffset: -1
 
 
