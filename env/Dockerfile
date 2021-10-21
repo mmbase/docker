@@ -9,11 +9,8 @@ RUN apt-get -y update && apt-get -y install git make gcc nasm pkg-config libx264
 
 FROM adoptopenjdk/openjdk8:debian-slim
 
-LABEL org.mmbase.image.authors="michiel@mmbase.org"
-LABEL org.mmbase.image.description="MMBase environment which can be used for building and running it"
-
-
-RUN apt-get -y update && apt-get -y upgrade
+LABEL org.mmbase.authors="michiel@mmbase.org"
+LABEL org.mmbase.description="MMBase environment which can be used for building and running it"
 
 # graphviz, figlet: used by some tools in mmbase
 # libxrender1 libxtst6 libxi6: used by awt (used by tagstripper)
@@ -21,7 +18,7 @@ RUN apt-get -y update && apt-get -y upgrade
 # nodejs: build @ github
 # make: used to download samples in streams
 #
-RUN apt-get -y install imagemagick graphviz figlet less curl nodejs libxrender1 libxtst6 libxi6 libx264-155 && \
+RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install imagemagick graphviz figlet libxrender1 libxtst6 libxi6 libx264-155 && \
     apt-get clean && rm -rf /var/cache/apt/lists
 
 COPY --from=buildffmeg  /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg

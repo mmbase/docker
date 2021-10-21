@@ -1,7 +1,7 @@
 FROM mmbase/tomcat:latest
 
-LABEL org.mmbase.image.authors="michiel@mmbase.org"
-LABEL org.mmbase.image.description="Tomcat with the MMBase Example Webapp"
+LABEL org.mmbase.authors="michiel@mmbase.org"
+LABEL org.mmbase.description="Tomcat with the MMBase Example Webapp"
 
 ENV VERSION=1.9-SNAPSHOT
 

@@ -14,7 +14,7 @@ pushimage: docker
 
 #https://github.com/christian-korneck/docker-pushrm
 pushrm: README.md docker
-	export DESCRIPTION=`docker inspect $(NAME) --format '{{ index .Config.Labels "org.mmbase.image.description"}}'` ; \
+	export DESCRIPTION=`docker inspect $(NAME) --format '{{ index .Config.Labels "org.mmbase.description"}}'` ; \
 	docker pushrm  $(NAME):latest --file $< -s "$${DESCRIPTION}"
 	touch $@
 
