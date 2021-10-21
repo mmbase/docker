@@ -1,19 +1,19 @@
-#FROM nortthon/java5
+FROM adoptopenjdk/openjdk8:debian-slim AS buildffmeg
+
+# we need ffmpeg for streams contribution. This is the most expensive step. Do it first.
+RUN apt-get -y update && apt-get -y install git make gcc nasm pkg-config libx264-dev libxext-dev libxfixes-dev zlib1g-dev && \
+    git clone  --branch n4.4  https://github.com/FFmpeg/FFmpeg.git  && \
+    cd FFmpeg/ && ./configure --enable-nonfree --enable-gpl --enable-libx264 --enable-zlib  && \
+    make install
+
+
 FROM adoptopenjdk/openjdk8:debian-slim
 
 LABEL org.mmbase.image.authors="michiel@mmbase.org"
 LABEL org.mmbase.image.description="MMBase environment which can be used for building and running it"
 
+
 RUN apt-get -y update && apt-get -y upgrade
-
-# we need ffmpeg for streams contribution. This is the most expensive step. Do it first.
-RUN apt-get -y install git make gcc nasm pkg-config libx264-dev libxext-dev libxfixes-dev zlib1g-dev && \
-    git clone  --branch n4.4  https://github.com/FFmpeg/FFmpeg.git  && \
-    cd FFmpeg/ && ./configure --enable-nonfree --enable-gpl --enable-libx264 --enable-zlib && \
-    make install
-
-
-RUN rm -rf FFmpeg && apt-get -y remove gcc nasm pkg-config  libx264-dev libxext-dev libxfixes-dev zlib1g-dev
 
 # graphviz, figlet: used by some tools in mmbase
 # libxrender1 libxtst6 libxi6: used by awt (used by tagstripper)
@@ -21,8 +21,11 @@ RUN rm -rf FFmpeg && apt-get -y remove gcc nasm pkg-config  libx264-dev libxext-
 # nodejs: build @ github
 # make: used to download samples in streams
 #
-RUN apt-get -y upgrade && \
-    apt-get -y install imagemagick graphviz figlet less curl maven nodejs libxrender1 libxtst6 libxi6
+RUN apt-get -y install imagemagick graphviz figlet less curl nodejs libxrender1 libxtst6 libxi6 libx264-155 && \
+    apt-get clean && rm -rf /var/cache/apt/lists
+
+COPY --from=buildffmeg  /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
+
 
 
 # the maven2 package of this debian doesn't work with java 5
