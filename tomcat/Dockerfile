@@ -1,4 +1,4 @@
-FROM mmbase/env:latest
+FROM mmbase/env:1
 
 ARG TOMCAT_VERSION=9.0.54
 ENV CATALINA_BASE=/catalina_base

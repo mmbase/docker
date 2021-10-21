@@ -1,4 +1,4 @@
-FROM mmbase/tomcat:latest
+FROM mmbase/tomcat:1
 
 ENV VERSION=1.9-SNAPSHOT
 

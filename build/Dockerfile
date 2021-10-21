@@ -1,4 +1,4 @@
-FROM mmbase/env:latest
+FROM mmbase/env:1
 
 ARG MAVEN_VERSION=3.8.3
 

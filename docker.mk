@@ -1,15 +1,16 @@
 
 .INTERMEDIATE: %.md %.xml README.md
 .PHONY: explore
+VERSION=1
 
-docker: Dockerfile
-	docker build -t $(NAME):latest .
+docker: Dockerfile ../docker.mk
+	docker build -t $(NAME):$(VERSION) .
 	touch $@
 
 push: pushimage pushrm
 
 pushimage: docker
-	docker push $(NAME):latest
+	docker push $(NAME):$(VERSION)
 	touch $@
 
 #https://github.com/christian-korneck/docker-pushrm
