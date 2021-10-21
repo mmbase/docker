@@ -1,6 +1,6 @@
 #SUBDIRS := $(wildcard */.)
-SUBDIRS := env tomcat example
-TOPTARGETS := push clean docker build
+SUBDIRS := env tomcat example build
+TOPTARGETS := push clean docker
 
 
 $(TOPTARGETS): $(SUBDIRS)

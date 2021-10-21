@@ -9,9 +9,6 @@ RUN apt-get -y update && apt-get -y install git make gcc nasm pkg-config libx264
 
 FROM adoptopenjdk/openjdk8:debian-slim
 
-LABEL org.mmbase.authors="michiel@mmbase.org"
-LABEL org.mmbase.description="MMBase environment which can be used for building and running it"
-
 # graphviz, figlet: used by some tools in mmbase
 # libxrender1 libxtst6 libxi6: used by awt (used by tagstripper)
 # maven: to build
@@ -42,3 +39,8 @@ RUN useradd -ms /bin/bash maven
 
 #RUN mkdir -p /home/maven/.m2/repository/org/apache
 #ADD maven /home/maven/.m2/repository/org/apache
+
+
+
+LABEL org.mmbase.authors="michiel@mmbase.org"
+LABEL org.mmbase.description="MMBase environment which can be used for building and running it"
