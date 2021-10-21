@@ -5,6 +5,12 @@ I created a few docker images to ease running and building MMBase in these new a
 
 They are published at https://hub.docker.com/orgs/mmbase/repositories[hub.docker.com]
 
+ifdef::env-github[]
+
+NOTE: Sadly. https://github.com/github/markup/issues/1095[Github markup doesn't support includes], so the following doesn't quite look as intended
+
+endif::[]
+
 :leveloffset: +1
 
 include::env/README.adoc[]
