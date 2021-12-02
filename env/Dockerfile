@@ -20,8 +20,6 @@ RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install imagemagick g
 
 COPY --from=buildffmeg  /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
 
-
-
 # the maven2 package of this debian doesn't work with java 5
 #RUN curl   https://archive.apache.org/dist/maven/binaries/apache-maven-2.2.1-bin.tar.gz -o apache-maven.tar.gz && \
 #    tar zxf apache-maven.tar.gz && \

@@ -6,5 +6,3 @@ It contains the tools necessary for that. I.e. the build tools itself, but some 
 
 - ImageMagick
 - FFMpeg
-
-This means that this image is also useful when _running_ MMBase itself

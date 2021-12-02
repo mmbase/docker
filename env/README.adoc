@@ -1,10 +1,4 @@
 = mmbase/env:latest
 
-This is currently used to https://github.com/mmbase/mmbase/actions[build MMBase].
-
-It contains the tools necessary for that. I.e. the build tools itself, but some tests also need the command line tools which some MMBase functionality needs when running, like
-
-- ImageMagick
-- FFMpeg
-
-This means that this image is also useful when _running_ MMBase itself
+This is the base image which contains minimal tools to run MMBase.
+I.e. it is a debian image with java (8), imagemagick, and ffmpeg.
