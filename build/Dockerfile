@@ -1,6 +1,6 @@
 FROM mmbase/env:1
 
-ARG MAVEN_VERSION=3.8.3
+ARG MAVEN_VERSION=3.8.4
 
 RUN apt-get -y update && apt-get -y install nodejs git make && apt-get clean && rm -rf /var/cache/apt/lists && apt-get -y auto-remove
 
