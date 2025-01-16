@@ -37,8 +37,8 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Extract Docker metadata
-        id: meta_env
+      - name: Extract Docker metadata env
+        id: meta-env
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/mmbase/env
@@ -48,13 +48,39 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
             type=pep440,pattern={{major}},event=tag
       - name: Build and push Docker image env
-        id: build-and-push
+        id: build-and-push-env
         uses: docker/build-push-action@v6
         with:
           push: true
           context: env
-          tags: ${{ steps.meta_env.outputs.tags }}
-          labels: ${{ steps.meta_env.outputs.labels }}
+          tags: ${{ steps.meta-env.outputs.tags }}
+          labels: ${{ steps.meta-env.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            CI_COMMIT_REF_NAME=${{ github.ref_name }}
+            CI_COMMIT_SHA=${{ github.sha }}
+            CI_COMMIT_TITLE=${{ github.event.head_commit.message }}
+            CI_COMMIT_TIMESTAMP=${{ steps.vars.outputs.commit_timestamp }}
+      - name: Extract Docker metadata tomcat
+        id: meta-tomcat
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/mmbase/tomcat
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=pep440,pattern={{major}},event=tag
+      - name: Build and push Docker image tomcat
+        id: build-and-push-tomcat
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          context: tomcat
+          tags: ${{ steps.meta-tomcat.outputs.tags }}
+          labels: ${{ steps.meta-tomcat.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64

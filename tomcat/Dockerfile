@@ -1,7 +1,9 @@
-FROM mmbase/env:1
+FROM ghcr.io/mmbase/env:latest
 
 ARG TOMCAT_VERSION=9.0.98
 ENV CATALINA_BASE=/catalina_base
+
+RUN apt-get update && apt-get -y upgrade
 
 RUN curl https://dlcdn.apache.org/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | tar zxf - && \
     ln -s apache-tomcat-$TOMCAT_VERSION tomcat && \
@@ -15,12 +17,14 @@ RUN curl https://dlcdn.apache.org/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-to
     mkdir $CATALINA_BASE/lib && \
     curl https://repo1.maven.org/maven2/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2.jar -o $CATALINA_BASE/lib/javax.mail-1.6.2.jar
 
+
+
 USER tomcat
 COPY  --chown=tomcat:tomcat catalina /$CATALINA_BASE
 
 EXPOSE 8080
 
-ENTRYPOINT /tomcat/bin/catalina.sh run
+ENTRYPOINT ["/tomcat/bin/catalina.sh", "run"]
 
 LABEL org.mmbase.authors="michiel@mmbase.org"
 LABEL org.mmbase.description="MMBase environment with (an empty) tomcat"
