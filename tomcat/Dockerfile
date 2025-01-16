@@ -1,6 +1,6 @@
 FROM mmbase/env:1
 
-ARG TOMCAT_VERSION=9.0.54
+ARG TOMCAT_VERSION=9.0.98
 ENV CATALINA_BASE=/catalina_base
 
 RUN curl https://dlcdn.apache.org/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | tar zxf - && \
@@ -24,4 +24,3 @@ ENTRYPOINT /tomcat/bin/catalina.sh run
 
 LABEL org.mmbase.authors="michiel@mmbase.org"
 LABEL org.mmbase.description="MMBase environment with (an empty) tomcat"
-
