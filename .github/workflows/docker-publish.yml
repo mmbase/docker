@@ -38,10 +38,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Extract Docker metadata
-        id: meta
+        id: meta_env
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/mmbase/env
           tags: |
             type=ref,event=branch
             type=ref,event=tag
@@ -53,8 +53,8 @@ jobs:
         with:
           push: true
           context: env
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta_env.outputs.tags }}
+          labels: ${{ steps.meta_env.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
