@@ -30,13 +30,39 @@ COPY --from=buildffmeg  /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
 #ENV PATH="/opt/apache-maven/bin:${PATH}"
 
 
-RUN useradd -ms /bin/bash maven
+# This makes ${USER.HOME} /
+ENV HOME=/
 
-#USER maven
-#WORKDIR /home/maven
+# Have a workable shell
+SHELL ["/bin/bash", "-c"]
 
-#RUN mkdir -p /home/maven/.m2/repository/org/apache
-#ADD maven /home/maven/.m2/repository/org/apache
+ENV TZ=Europe/Amsterdam
+ENV PGTZ=Europe/Amsterdam
+ENV HISTFILE=/data/.bash_history
+ENV PSQL_HISTORY=/data/.pg_history
+ENV PSQL_EDITOR=/usr/bin/vi
+ENV LESSHISTFILE=/data/.lesshst
+
+# 'When invoked as an interactive shell with the name sh, Bash looks for the variable ENV, expands its value if it is defined, and uses the expanded value as the name of a file to read and execute'
+ENV ENV=/.binbash
+COPY binbash /.binbash
+
+# - Setting up timezone and stuff
+RUN echo "dash dash/sh boolean false" | debconf-set-selections &&  DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash && \
+  ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
+  dpkg-reconfigure --frontend noninteractive tzdata && \
+  mkdir -p /scripts
+
+
+# With bearable key bindings:
+COPY inputrc /etc
+# And a nicer bash prompt
+COPY bashrc /.bashrc
+# ' Failed to source defaults.vim' (even an empty vi config file like that avoid it)
+COPY exrc /.exrc
+
+# Clean up default /etc/bash.bashrc a bit (no call to groups)
+COPY bash.bashrc /etc/bash.bashrc
 
 
 
