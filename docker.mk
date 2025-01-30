@@ -1,7 +1,7 @@
 
 .INTERMEDIATE: %.md %.xml README.md
 .PHONY: explore
-VERSION=1
+VERSION=dev
 
 docker: Dockerfile ../docker.mk
 	docker build -t $(NAME):$(VERSION) .

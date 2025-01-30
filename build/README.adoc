@@ -6,3 +6,15 @@ It contains the tools necessary for that. I.e. the build tools itself, but some 
 
 - ImageMagick
 - FFMpeg
+
+== Example
+
+[source, bash]
+----
+michiel@L824:(MMBase-1_9)~/github/mmbase/mmbase$ git remote -v
+origin  git@github.com:mmbase/mmbase.git (fetch)
+origin  git@github.com:mmbase/mmbase.git (push)
+michiel@L824:(MMBase-1_9)~/github/mmbase/mmbase$  docker run -it -v $HOME/.m2:/root/.m2 -v $(pwd):/work mmbase/build:latest
+root@101c0579daf9:/# cd /work/
+root@101c0579daf9:/work# mvn package
+----

@@ -9,7 +9,8 @@ endif::[]
 
 I created a few docker images to ease running and building MMBase in these new ages.
 
-They are published at https://hub.docker.com/orgs/mmbase/repositories[hub.docker.com]
+They are/were published at https://hub.docker.com/orgs/mmbase/repositories[hub.docker.com], and currently also automatically (using gith actions) to https://github.com/orgs/mmbase/packages?repo_name=docker[ghcr.io]
+
 
 :leveloffset: +1
 
