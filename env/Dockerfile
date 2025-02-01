@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk8:debian-slim AS buildffmeg
+FROM eclipse-temurin:8u442-b06-jdk-noble AS buildffmeg
 
 # we need ffmpeg for streams contribution. This is the most expensive step. Do it first.
 RUN apt-get -y update && apt-get -y install git make gcc nasm pkg-config libx264-dev libxext-dev libxfixes-dev zlib1g-dev && \
@@ -7,7 +7,7 @@ RUN apt-get -y update && apt-get -y install git make gcc nasm pkg-config libx264
     make install
 
 
-FROM adoptopenjdk/openjdk8:debian-slim
+FROM eclipse-temurin:8u442-b06-jdk-noble
 
 # graphviz, figlet: used by some tools in mmbase
 # libxrender1 libxtst6 libxi6: used by awt (used by tagstripper)
@@ -15,7 +15,7 @@ FROM adoptopenjdk/openjdk8:debian-slim
 # nodejs: build @ github
 # make: used to download samples in streams
 #
-RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install imagemagick graphviz figlet libxrender1 libxtst6 libxi6 libx264-155 && \
+RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install imagemagick graphviz figlet libxrender1 libxtst6 libxi6 libx264-164 && \
     apt-get clean && rm -rf /var/cache/apt/lists
 
 COPY --from=buildffmeg  /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
