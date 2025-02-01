@@ -17,10 +17,8 @@ RUN curl https://dlcdn.apache.org/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-to
     mkdir $CATALINA_BASE/lib && \
     curl https://repo1.maven.org/maven2/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2.jar -o $CATALINA_BASE/lib/javax.mail-1.6.2.jar
 
-
-
 USER tomcat
-COPY  --chown=tomcat:tomcat catalina /$CATALINA_BASE
+COPY  --chown=tomcat:tomcat catalina $CATALINA_BASE
 
 EXPOSE 8080
 
