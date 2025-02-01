@@ -9,16 +9,14 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
-jobs:
-  build:
-
+runs:
+  using: "composite"
+  build-env:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -63,6 +61,13 @@ jobs:
             CI_COMMIT_SHA=${{ github.sha }}
             CI_COMMIT_TITLE=${{ github.event.head_commit.message }}
             CI_COMMIT_TIMESTAMP=${{ steps.vars.outputs.commit_timestamp }}
+  build-tomcat:
+    needs: build-env
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
       - name: Extract Docker metadata tomcat
         id: meta-tomcat
         uses: docker/metadata-action@v5
