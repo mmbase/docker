@@ -1,12 +1,3 @@
-FROM eclipse-temurin:8u442-b06-jdk-noble AS buildffmeg
-
-# we need ffmpeg for streams contribution. This is the most expensive step. Do it first.
-RUN apt-get -y update && apt-get -y install git make gcc nasm pkg-config libx264-dev libxext-dev libxfixes-dev zlib1g-dev && \
-    git clone  --branch n4.4.5  https://github.com/FFmpeg/FFmpeg.git  --single-branch && \
-    cd FFmpeg/ && ./configure --enable-nonfree --enable-gpl --enable-libx264 --enable-zlib  && \
-    make install
-
-
 FROM eclipse-temurin:8u442-b06-jdk-noble
 
 # graphviz, figlet: used by some tools in mmbase
@@ -18,17 +9,7 @@ FROM eclipse-temurin:8u442-b06-jdk-noble
 RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install imagemagick graphviz figlet libxrender1 libxtst6 libxi6 libx264-164 && \
     apt-get clean && rm -rf /var/cache/apt/lists
 
-COPY --from=buildffmeg  /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
-
-# the maven2 package of this debian doesn't work with java 5
-#RUN curl   https://archive.apache.org/dist/maven/binaries/apache-maven-2.2.1-bin.tar.gz -o apache-maven.tar.gz && \
-#    tar zxf apache-maven.tar.gz && \
-#    ln -s  /apache-maven-2.2.1 /opt/apache-maven && \
-#    curl https://downloads.bouncycastle.org/java/bcprov-ext-jdk15on-169.jar -o /jdk1.5.0_22/jre/lib/ext/bcprov-ext-jdk15on-169.jar
-
-#COPY java.security /jdk1.5.0_22/jre/lib/security
-#ENV PATH="/opt/apache-maven/bin:${PATH}"
-
+COPY --from=docker.io/mmbase/ffmpeg:dev /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
 
 # This makes ${USER.HOME} /
 ENV HOME=/
@@ -51,7 +32,7 @@ COPY binbash /.binbash
 RUN echo "dash dash/sh boolean false" | debconf-set-selections &&  DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash && \
   ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
   dpkg-reconfigure --frontend noninteractive tzdata && \
-  mkdir -p /scripts
+  mkdir -p /data
 
 
 # With bearable key bindings:
@@ -64,7 +45,7 @@ COPY exrc /.exrc
 # Clean up default /etc/bash.bashrc a bit (no call to groups)
 COPY bash.bashrc /etc/bash.bashrc
 
-
+ENTRYPOINT ["/bin/bash"]
 
 LABEL org.mmbase.authors="michiel@mmbase.org"
 LABEL org.mmbase.description="MMBase environment which can be used for building and running it"

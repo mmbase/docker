@@ -4,13 +4,14 @@
 VERSION=dev
 
 docker: Dockerfile ../docker.mk
+	#docker buildx build --platform=linux/amd64,linux/arm64 -t $(NAME):$(VERSION) . --push
 	docker build -t $(NAME):$(VERSION) .
 	touch $@
 
 push: pushimage pushrm
 
 pushimage: docker
-	docker push $(NAME):$(VERSION)
+	docker buildx push $(NAME):$(VERSION)
 	touch $@
 
 #https://github.com/christian-korneck/docker-pushrm
