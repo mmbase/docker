@@ -1,4 +1,4 @@
-FROM ghcr.io/mmbase/env:dev
+FROM ghcr.io/mmbase/env:latest
 
 ARG MAVEN_VERSION=3.8.8
 
