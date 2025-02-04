@@ -105,8 +105,8 @@ jobs:
         with:
           push: true
           context: build
-          tags: ${{ steps.meta-tomcat.outputs.tags }}
-          labels: ${{ steps.meta-tomcat.outputs.labels }}
+          tags: ${{ steps.meta-build.outputs.tags }}
+          labels: ${{ steps.meta-build.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
