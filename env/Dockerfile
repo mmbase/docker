@@ -9,7 +9,7 @@ FROM eclipse-temurin:8u442-b06-jdk-noble
 RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install imagemagick graphviz figlet libxrender1 libxtst6 libxi6 libx264-164 && \
     apt-get clean && rm -rf /var/cache/apt/lists
 
-COPY --from=docker.io/mmbase/ffmpeg:dev /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=docker.io/mmbase/ffmpeg:1 /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
 
 # This makes ${USER.HOME} /
 ENV HOME=/
