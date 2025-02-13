@@ -6,12 +6,16 @@ ENV CATALINA_BASE=/catalina_base
 
 RUN apt-get update && apt-get -y upgrade
 
+
+# note that this is unused in helm, it then uses container.command
+CMD ["/usr/local/catalina-base/bin/start.sh"]
+#CMD ["catalina.sh", "run"]
+
+# We want to split off catalina base, default it's catalina_home
+ADD catalina_base ${CATALINA_BASE}/
+
 RUN curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | tar zxf - && \
     ln -s apache-tomcat-$TOMCAT_VERSION tomcat && \
-    mkdir $CATALINA_BASE && \
-    adduser --disabled-password --gecos '' tomcat && \
-    chown -R tomcat $CATALINA_BASE && \
-    chmod -R o+r /tomcat && \
     rm -rf /tomcat/webapps /tomcat/logs /tomcat/temp && \
     find /tomcat/ -type d -exec chmod o+x {} + && \
     chmod o+x /tomcat/bin/*.sh && \

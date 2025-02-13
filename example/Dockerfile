@@ -1,4 +1,4 @@
-FROM ghcr.io/mmbase/tomcat:dev
+FROM ghcr.io/mmbase/tomcat:latest
 
 ENV VERSION=1.9-SNAPSHOT
 

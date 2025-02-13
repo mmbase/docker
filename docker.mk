@@ -9,18 +9,18 @@ help:     ## Show this help.
 	@grep -h -E '^[/%a-zA-Z0-9._-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 
-build_push: Dockerfile ../docker.mk  ## build docker image and push
+build_push: Dockerfile ../docker.mk  ## build docker image and push (multiplatform build)
 	docker buildx build --platform=linux/amd64,linux/arm64 -t $(NAME):$(VERSION) . --push
 	#docker build -t $(NAME):$(VERSION) .
 	touch $@
 
-build: Dockerfile ../docker.mk  ## build docker image
+build: Dockerfile ../docker.mk  ## build docker image, no push, current platform. Handy for local testing
 	docker build -t $(NAME):$(VERSION) .
 	touch $@
 
 
 #https://github.com/christian-korneck/docker-pushrm
-pushrm: README.md docker
+pushrm: README.md docker  ## Update the README.md on dockerhub.
 	export DESCRIPTION=`docker inspect $(NAME) --format '{{ index .Config.Labels "org.mmbase.description"}}'` ; \
 	docker pushrm  $(NAME):latest --file $< -s "$${DESCRIPTION}"
 	touch $@
@@ -28,7 +28,7 @@ pushrm: README.md docker
 %.xml: %.adoc
 	asciidoc -b docbook $<
 
-%.md: %.xml
+%.md: %.xml  ## create markdown from docbook
 	pandoc -f docbook -t gfm $< -o $@
 
 explore: build  ## explore the docker image
@@ -39,5 +39,5 @@ root: build  ## explore the docker image as root
 	mkdir -p data
 	docker run -it --entrypoint bash -u root -v $(PWD)/data:/data $(NAME):$(VERSION)
 
-clean:
+clean: ## clean
 	rm -f docker pushrm pushimage README.xml README.md
