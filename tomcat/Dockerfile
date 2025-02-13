@@ -1,6 +1,6 @@
 FROM ghcr.io/mmbase/env:latest
 
-ARG TOMCAT_VERSION=9.0.98
+ARG TOMCAT_VERSION=9.0.99
 ENV CATALINA_BASE=/catalina_base
 
 RUN apt-get update && apt-get -y upgrade

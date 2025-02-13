@@ -5,15 +5,13 @@ LANG=nl
 LC_ALL=nl_NL.iso88591
 LC_CTYPE=iso88591
 
-dir=$( dirname "${BASH_SOURCE[0]}")
-
 
 # find out limit of current pod:
 #limit=`cat /sys/fs/cgroup/memory/memory.limit_in_bytes`
 # Substract 1.5G some for non heap useage
 #heapsize=$((limit - 1500000000))
 
-if [[ -z "$MaxRAMPercentage" ]] ; then
+if [ -z "$MaxRAMPercentage" ] ; then
   MaxRAMPercentage=75.0
 fi
 
@@ -22,7 +20,7 @@ fi
 # -XX:+UseContainerSupport                      Default, but lets be explicit, we target running in a container.
 # -XX:+UseZGC
 
-if [[ -z "$GarbageCollectionOption" ]] ; then
+if [ -z "$GarbageCollectionOption" ] ; then
   GarbageCollectionOption=-XX:+UseG1GC
   # GarbageCollectionOption=-XX:+UseZGC
 fi
@@ -32,7 +30,7 @@ export CATALINA_OPTS="$CATALINA_OPTS ${GarbageCollectionOption} -XX:MaxRAMPercen
 
 
 # Heap dumps may be quite large, if you need to create them on out of memory, start the pod with environment variable HeapDumpPath=/data (or so)
-if [[ ! -z "$HeapDumpPath" ]] ; then
+if [ ! -z "$HeapDumpPath" ] ; then
   mkdir -p "${HeapDumpPath}"
   chmod 775 "${HeapDumpPath}"
   export CATALINA_OPTS="$CATALINA_OPTS -XX:HeapDumpPath=${HeapDumpPath} -XX:+HeapDumpOnOutOfMemoryError"
@@ -53,15 +51,10 @@ mkdir -p /data/logs
 chmod 2775 /data/logs
 
 # JMX
-JMX_PORT=$($dir/jmx.sh)
+JMX_PORT=$(${CATALINA_BASE}/bin/jmx.sh)
 
 # jmx settings
 export CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=$JMX_PORT -Dcom.sun.management.jmxremote.rmi.port=$JMX_PORT -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false -Djava.rmi.server.hostname=localhost -Duser.country=NL -Duser.timezone=Europe/Amsterdam -Ddata.dir=/data"
-
-# gc logging
-mkdir -p ${CATALINA_LOGS}/gclogs/
-chmod 2775 ${CATALINA_LOGS}/gclogs/
-export CATALINA_OPTS="$CATALINA_OPTS -XX:NativeMemoryTracking=summary -Xlog:gc*=info:file=${CATALINA_LOGS}/gclogs/%t-gc.log:time,uptime,tags,level:filecount=10,filesize=10M"
 
 # crash logging
 export CATALINA_OPTS="$CATALINA_OPTS -XX:ErrorFile=${CATALINA_LOGS}/hs_err_pid%p.log"
@@ -71,21 +64,21 @@ export CATALINA_OPTS="$CATALINA_OPTS -XX:ErrorFile=${CATALINA_LOGS}/hs_err_pid%p
 export CATALINA_OPTS="${CATALINA_OPTS} -Dlog.dir=$CATALINA_BASE/logs"
 
 
-if [[ -z "$BodyContentImpl_BUFFER_SIZE" ]] ; then
+if [ -z "$BodyContentImpl_BUFFER_SIZE" ] ; then
   BodyContentImpl_BUFFER_SIZE=8192
 fi
 
 # Taglib may use much memory otherwise
 export CATALINA_LOGS="$CATALINA_OPTS -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dorg.apache.jasper.runtime.BodyContentImpl.USE_POOL=true -Dorg.apache.jasper.runtime.BodyContentImpl.BUFFER_SIZE=${BodyContentImpl_BUFFER_SIZE}"
 
-if [[ -z "$Parser_STRICT" ]] ; then
+if [ -z "$Parser_STRICT" ] ; then
   Parser_STRICT=true
 fi
 export CATALINA_LOGS="$CATALINA_OPTS -Dorg.apache.jasper.compiler.Generator.STRICT_GET_PROPERTY=${Parser_STRICT} -Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=${Parser_STRICT} -Dorg.apache.jasper.compiler.Parser.STRICT_WHITESPACE=${Parser_STRICT}"
 
 
 # enabled assertions on test.
-if [ "$ENVIRONMENT" == "test" ] ; then
+if [ "$ENVIRONMENT" = "test" ] ; then
   CATALINA_OPTS="$CATALINA_OPTS -ea"
 fi
 

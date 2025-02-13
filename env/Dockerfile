@@ -23,15 +23,18 @@ ENV HISTFILE=/data/.bash_history
 ENV PSQL_HISTORY=/data/.pg_history
 ENV PSQL_EDITOR=/usr/bin/vi
 ENV LESSHISTFILE=/data/.lesshst
+# avoid warnings about that from debconf
+ARG DEBIAN_FRONTEND=noninteractive
 
 # 'When invoked as an interactive shell with the name sh, Bash looks for the variable ENV, expands its value if it is defined, and uses the expanded value as the name of a file to read and execute'
 ENV ENV=/.binbash
 COPY binbash /.binbash
 
 # - Setting up timezone and stuff
-RUN echo "dash dash/sh boolean false" | debconf-set-selections &&  DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash && \
+RUN echo "dash dash/sh boolean false" | debconf-set-selections &&  dpkg-reconfigure dash && \
   ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
   dpkg-reconfigure --frontend noninteractive tzdata && \
+  locale-gen nl_NL && \
   mkdir -p /data
 
 
