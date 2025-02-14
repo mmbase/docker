@@ -24,6 +24,7 @@ RUN curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/ap
     mkdir $CATALINA_BASE/webapps
 
 EXPOSE 8080
+WORKDIR $CATALINA_BASE
 
 ENTRYPOINT ["/tomcat/bin/catalina.sh", "run"]
 
