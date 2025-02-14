@@ -80,6 +80,7 @@ ONBUILD ADD target/*${PROJECT_VERSION}.war /tmp/app.war
 
 # if clustering, it also makes some sense to have a peristent work dir (to write sessions in)
 ONBUILD RUN (\
+     ls -lag /tmp/app.war && \
      if [ -z "$CONTEXT" ] ; then \
         CONTEXT=ROOT; \
      fi && \
@@ -105,10 +106,6 @@ ONBUILD LABEL version="${PROJECT_VERSION}"
 ONBUILD RUN apt-get update && apt-get -y upgrade && \
   apt-get clean && rm -rf /var/lib/apt/lists/* && \
   ( if [ "$JARS_TO_SCAN" != 'UNSET' ] ; then sed -E -i "s|^(tomcat.util.scan.StandardJarScanFilter.jarsToScan[ \t]*=)(.*)$|\1${JARS_TO_SCAN}|g"   ${CATALINA_BASE}/conf/catalina.properties ; fi ) && \
-  for errorfile in ${CATALINA_BASE}/errorpages/*.html  ; do \
-    sed -E -i "s|class='doclink' href='(.*?)'|class='doclink' href='${DOCLINK:-https://wiki.vpro.nl/}'|g" ${errorfile} && \
-    ( if [ "$CONTEXT" != 'ROOT' ] ; then sed -E -i "s|class='home' href='(.*?)'|class='home' href='/${CONTEXT}'|g" ${errorfile} ; fi ) ; \
-  done && \
   (echo "${NAME} version=${PROJECT_VERSION}") >> /DOCKER.BUILD && \
   (echo -e "${NAME} git version=${CI_COMMIT_SHA}\t${CI_COMMIT_REF_NAME}\t${CI_COMMIT_TIMESTAMP}\t${CI_COMMIT_TITLE}") >> /DOCKER.BUILD && \
   (echo -n "${NAME} build time=" ; date -Iseconds) >> /DOCKER.BUILD
