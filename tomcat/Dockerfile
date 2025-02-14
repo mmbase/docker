@@ -2,34 +2,58 @@ FROM ghcr.io/mmbase/env:latest
 
 # seems to be removed as soon as newer version available?
 ARG TOMCAT_VERSION=9.0.99
-ENV CATALINA_BASE=/catalina_base
+ENV CATALINA_BASE=/catalina-base
+ENV CATALINA_HOME=/tomcat
 
 RUN apt-get update && apt-get -y upgrade
 
 
-# note that this is unused in helm, it then uses container.command
-CMD ["/usr/local/catalina-base/bin/start.sh"]
-#CMD ["catalina.sh", "run"]
 
 # We want to split off catalina base, default it's catalina_home
 ADD catalina_base ${CATALINA_BASE}/
 
+RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install inotify-tools unzip apache2-utils: && \
+    apt-get clean && rm -rf /var/cache/apt/lists
+
 RUN curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | tar zxf - && \
-    ln -s apache-tomcat-$TOMCAT_VERSION tomcat && \
-    rm -rf /tomcat/webapps /tomcat/logs /tomcat/temp && \
-    find /tomcat/ -type d -exec chmod o+x {} + && \
-    chmod o+x /tomcat/bin/*.sh && \
-    mkdir $CATALINA_BASE/lib && \
-    curl https://repo1.maven.org/maven2/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2.jar -o $CATALINA_BASE/lib/javax.mail-1.6.2.jar && \
-    mkdir $CATALINA_BASE/webapps
+    ln -s apache-tomcat-$TOMCAT_VERSION ${CATALINA_HOME} && \
+    find ${CATALINA_HOME} -type d -exec chmod o+x {} + && \
+    chmod o+x ${CATALINA_HOME}/bin/*.sh && \
+    curl https://repo1.maven.org/maven2/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2.jar -o ${CATALINA_HOME}/lib/javax.mail-1.6.2.jar
+
 
 EXPOSE 8080
 WORKDIR $CATALINA_BASE
 
-ENTRYPOINT ["/tomcat/bin/catalina.sh", "run"]
+CMD [""]
+ENTRYPOINT ["/catalina-base/bin/start.sh"]
 
 LABEL org.mmbase.authors="michiel@mmbase.org"
 LABEL org.mmbase.description="MMBase environment with (an empty) tomcat"
+
+ADD catalina_base ${CATALINA_BASE}/
+
+RUN echo Catalina base: ${CATALINA_BASE} && \
+  rm -rf ${CATALINA_HOME}/webapps.dist && \
+  chmod -R o-w ${CATALINA_HOME} && \
+  chmod -R g=o ${CATALINA_HOME} && \
+  chmod -R o-w ${CATALINA_BASE} && \
+  chmod -R g=o ${CATALINA_BASE} && \
+  mkdir -p  ${CATALINA_BASE}/conf/Catalina/localhost && \
+  chmod 755 ${CATALINA_BASE}/conf/Catalina/localhost && \
+  for directory in 'webapps' 'work'; do \
+      mkdir -p ${CATALINA_BASE}/$directory && \
+      rm -rf ${CATALINA_HOME}/$directory; \
+  done && \
+  chmod 755 ${CATALINA_BASE}/webapps && \
+  chmod 775 ${CATALINA_BASE}/work && \
+  (cd ${CATALINA_HOME} && rm -rf temp && rm -rf logs) && \
+  (cd ${CATALINA_BASE} && ln -s /data/logs logs) && \
+  sed -E -i "s|^(tomcat.util.scan.StandardJarScanFilter.jarsToScan[ \t]*=)(.*)$|\1${JARS_TO_SCAN}|g"  ${CATALINA_BASE}/conf/catalina.properties && \
+  mkdir ${CATALINA_BASE}/lib && \
+  (echo -e "mmbase/tomcat git version=${CI_COMMIT_SHA}\t${CI_COMMIT_REF_NAME}\t${CI_COMMIT_TIMESTAMP}\t${CI_COMMIT_TITLE}") > /DOCKER.BUILD && \
+  (echo -n "mmbase/tomcat build time=" ; date -Iseconds) >> /DOCKER.BUILD
+
 
 
 # The onbuild commands to install the application when this image is overlaid
@@ -42,8 +66,6 @@ ONBUILD ENV CONTEXT=${CONTEXT}
 # Link to use in 404 page of tomcat
 ONBUILD ARG DOCLINK
 ONBUILD ENV DOCLINK=${DOCLINK}
-
-
 
 
 ONBUILD ARG JARS_TO_SCAN=UNSET

@@ -3,10 +3,11 @@
 # @author Michiel Meeuwissen
 # 2022-09-02
 
-export CATALINA_PID=/tmp/tomcat.pid
-export CATALINA_LOGS=${CATALINA_BASE}/logs
-export APPLICATION_OUT=${CATALINA_LOGS}/application.out
-export CATALINA_WORK=${CATALINA_BASE}/work
+CATALINA_PID=/tmp/tomcat.pid
+CATALINA_LOGS=${CATALINA_BASE}/logs
+APPLICATION_OUT=${CATALINA_LOGS}/application.out
+CATALINA_WORK=${CATALINA_BASE}/work
+CATALINA_SH=${CATALINA_HOME}/bin/catalina.sh
 
 
 gdate() {
@@ -43,7 +44,7 @@ start() {
   # TODO this is only tested with 'run', not with 'start'. If that would be a use case?
   ARGS=$([ "$CATALINA_ARGS" == "" ] && echo "jpda run" || echo "$CATALINA_ARGS")
   echo "$(gdate) Effective catalina arguments: '${ARGS}'" >> ${APPLICATION_OUT}
-  catalina.sh ${ARGS} | (echo $! > ${CATALINA_PID}; /usr/bin/rotatelogs -L ${APPLICATION_OUT} -f  ${APPLICATION_OUT}.%Y-%m-%d 86400) &
+  ${CATALINA_SH} ${ARGS} | (echo $! > ${CATALINA_PID}; /usr/bin/rotatelogs -L ${APPLICATION_OUT} -f  ${APPLICATION_OUT}.%Y-%m-%d 86400) &
 
    # Tail everything to stdout, so it will be picked up by kibana
    tail -F "${APPLICATION_OUT}" --pid $$  2>/dev/null & tailPid=$!
