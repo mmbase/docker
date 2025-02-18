@@ -5,15 +5,11 @@ ARG TOMCAT_VERSION=9.0.99
 ENV CATALINA_BASE=/catalina-base
 ENV CATALINA_HOME=/tomcat
 
-RUN apt-get update && apt-get -y upgrade
-
-
+RUN apt-get update && apt-get -y upgrade && apt-get -y install inotify-tools unzip apache2-utils && \
+    apt-get clean && rm -rf /var/cache/apt/lists
 
 # We want to split off catalina base, default it's catalina_home
 ADD catalina_base ${CATALINA_BASE}/
-
-RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install inotify-tools unzip apache2-utils: && \
-    apt-get clean && rm -rf /var/cache/apt/lists
 
 RUN curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | tar zxf - && \
     ln -s apache-tomcat-$TOMCAT_VERSION ${CATALINA_HOME} && \
@@ -21,17 +17,13 @@ RUN curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/ap
     chmod o+x ${CATALINA_HOME}/bin/*.sh && \
     curl https://repo1.maven.org/maven2/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2.jar -o ${CATALINA_HOME}/lib/javax.mail-1.6.2.jar
 
-
 EXPOSE 8080
 WORKDIR $CATALINA_BASE
 
-CMD [""]
 ENTRYPOINT ["/catalina-base/bin/start.sh"]
 
 LABEL org.mmbase.authors="michiel@mmbase.org"
 LABEL org.mmbase.description="MMBase environment with (an empty) tomcat"
-
-ADD catalina_base ${CATALINA_BASE}/
 
 RUN echo Catalina base: ${CATALINA_BASE} && \
   rm -rf ${CATALINA_HOME}/webapps.dist && \
@@ -48,6 +40,8 @@ RUN echo Catalina base: ${CATALINA_BASE} && \
   chmod 755 ${CATALINA_BASE}/webapps && \
   chmod 775 ${CATALINA_BASE}/work && \
   (cd ${CATALINA_HOME} && rm -rf temp && rm -rf logs) && \
+  mkdir -p /data/logs && \
+  chmod 2775 /data /data/logs && \
   (cd ${CATALINA_BASE} && ln -s /data/logs logs) && \
   sed -E -i "s|^(tomcat.util.scan.StandardJarScanFilter.jarsToScan[ \t]*=)(.*)$|\1${JARS_TO_SCAN}|g"  ${CATALINA_BASE}/conf/catalina.properties && \
   mkdir ${CATALINA_BASE}/lib && \

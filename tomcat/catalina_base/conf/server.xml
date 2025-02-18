@@ -2,14 +2,14 @@
 
   <!-- Used by Manager webapp -->
 
-  <GlobalNamingResources>
+  <!--GlobalNamingResources>
 
     <Resource name="UserDatabase" auth="Container"
               type="org.apache.catalina.UserDatabase"
               description="User database that can be updated and saved"
               factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
               pathname="conf/tomcat-users.xml" />
-  </GlobalNamingResources>
+  </GlobalNamingResources-->
 
   <Service name="Catalina">
 
@@ -26,7 +26,7 @@
              resourceName="UserDatabase" />
       <Valve
             className="org.apache.catalina.valves.AccessLogValve"
-            directory="logs"  prefix="catalina_access_log." suffix=".txt"
+            directory="logs"  prefix="catalina_access_log" suffix=".txt"
             pattern='%h %S %l %u %t "%r" %s %b' />
 
         <!--
