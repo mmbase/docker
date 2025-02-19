@@ -9,6 +9,7 @@ APPLICATION_OUT=${CATALINA_LOGS}/application.out
 CATALINA_WORK=${CATALINA_BASE}/work
 CATALINA_SH=${CATALINA_HOME}/bin/catalina.sh
 
+source ${CATALINA_BASE}/bin/setenv.sh
 
 gdate() {
   date +%Y-%m-%dT%H:%M:%S.%3N

@@ -59,7 +59,6 @@ export CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote=true -Dcom.s
 # crash logging
 export CATALINA_OPTS="$CATALINA_OPTS -XX:ErrorFile=${CATALINA_LOGS}/hs_err_pid%p.log"
 
-
 # this will be recognized by mmbase
 export CATALINA_OPTS="${CATALINA_OPTS} -Dlog.dir=$CATALINA_BASE/logs"
 
@@ -69,12 +68,12 @@ if [ -z "$BodyContentImpl_BUFFER_SIZE" ] ; then
 fi
 
 # Taglib may use much memory otherwise
-export CATALINA_LOGS="$CATALINA_OPTS -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dorg.apache.jasper.runtime.BodyContentImpl.USE_POOL=true -Dorg.apache.jasper.runtime.BodyContentImpl.BUFFER_SIZE=${BodyContentImpl_BUFFER_SIZE}"
+export CATALINA_OPTS="$CATALINA_OPTS -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dorg.apache.jasper.runtime.BodyContentImpl.USE_POOL=true -Dorg.apache.jasper.runtime.BodyContentImpl.BUFFER_SIZE=${BodyContentImpl_BUFFER_SIZE}"
 
 if [ -z "$Parser_STRICT" ] ; then
   Parser_STRICT=true
 fi
-export CATALINA_LOGS="$CATALINA_OPTS -Dorg.apache.jasper.compiler.Generator.STRICT_GET_PROPERTY=${Parser_STRICT} -Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=${Parser_STRICT} -Dorg.apache.jasper.compiler.Parser.STRICT_WHITESPACE=${Parser_STRICT}"
+export CATALINA_OPTS="$CATALINA_OPTS -Dorg.apache.jasper.compiler.Generator.STRICT_GET_PROPERTY=${Parser_STRICT} -Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=${Parser_STRICT} -Dorg.apache.jasper.compiler.Parser.STRICT_WHITESPACE=${Parser_STRICT}"
 
 
 # enabled assertions on test.

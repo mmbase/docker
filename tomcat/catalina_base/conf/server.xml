@@ -1,29 +1,24 @@
 <Server port="8004" shutdown="SHUTDOWN" >
-
-  <!-- Used by Manager webapp -->
-
-  <!--GlobalNamingResources>
-
-    <Resource name="UserDatabase" auth="Container"
-              type="org.apache.catalina.UserDatabase"
-              description="User database that can be updated and saved"
-              factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
-              pathname="conf/tomcat-users.xml" />
-  </GlobalNamingResources-->
-
   <Service name="Catalina">
 
 
     <Connector port="8080"
                protocol="HTTP/1.1"
-               maxThreads="2"
-               connectionTimeout="20000"
+               connectionTimeout="${TOMCAT_CONNECTION_TIMEOUT}"
+               asyncTimeout="${TOMCAT_ASYNC_TIMEOUT}"
+               acceptCount="${TOMCAT_ACCEPT_COUNT}"
+               maxThreads="${TOMCAT_MAX_THREADS}"
+               xpoweredBy="false"
+               server="Tomcat ${TOMCAT_MAJOR} ${HOSTNAME}"
                compression="true"
-               redirectPort="8443" />
+               disableUploadTimeout="true"
+               relaxedQueryChars="${TOMCAT_RELAXED_QUERY_CHARS}"
+               relaxedPathChars="${TOMCAT_RELAXED_PATH_CHARS}"
+               encodedSolidusHandling="${TOMCAT_ENCODED_SOLIDUS_HANDLING}"
+               allowBackslash="false"
+                />
 
     <Engine name="Catalina" defaultHost="localhost" >
-      <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
-             resourceName="UserDatabase" />
       <Valve
             className="org.apache.catalina.valves.AccessLogValve"
             directory="logs"  prefix="catalina_access_log" suffix=".txt"

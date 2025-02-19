@@ -5,7 +5,7 @@ include ../docker.mk
 
 run: build  ## run the docker image
 	mkdir -p data
-	docker run -p 8080:8080 -v $(PWD)/data:/data $(NAME):$(VERSION)
+	docker run -i -p 8080:8080 -v $(PWD)/data:/data $(NAME):$(VERSION)
 
 
 

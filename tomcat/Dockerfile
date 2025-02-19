@@ -1,9 +1,10 @@
 FROM ghcr.io/mmbase/env:latest
 
-# seems to be removed as soon as newer version available?
-ARG TOMCAT_VERSION=9.0.99
+ENV TOMCAT_VERSION=9.0.100
 ENV CATALINA_BASE=/catalina-base
 ENV CATALINA_HOME=/tomcat
+
+#ENV org.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.Digester$EnvironmentPropertySource.
 
 RUN apt-get update && apt-get -y upgrade && apt-get -y install inotify-tools unzip apache2-utils && \
     apt-get clean && rm -rf /var/cache/apt/lists
