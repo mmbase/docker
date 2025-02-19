@@ -1,5 +1,8 @@
 FROM eclipse-temurin:8u442-b06-jdk-noble
 
+# avoid warnings about that from debconf
+ARG DEBIAN_FRONTEND=noninteractive
+
 # graphviz, figlet: used by some tools in mmbase
 # libxrender1 libxtst6 libxi6: used by awt (used by tagstripper)
 # maven: to build
@@ -24,8 +27,7 @@ ENV HISTFILE=/data/.bash_history
 ENV PSQL_HISTORY=/data/.pg_history
 ENV PSQL_EDITOR=/usr/bin/vi
 ENV LESSHISTFILE=/data/.lesshst
-# avoid warnings about that from debconf
-ARG DEBIAN_FRONTEND=noninteractive
+
 
 # 'When invoked as an interactive shell with the name sh, Bash looks for the variable ENV, expands its value if it is defined, and uses the expanded value as the name of a file to read and execute'
 ENV ENV=/.binbash
