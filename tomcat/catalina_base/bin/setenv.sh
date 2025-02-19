@@ -75,6 +75,8 @@ if [ -z "$Parser_STRICT" ] ; then
 fi
 export CATALINA_OPTS="$CATALINA_OPTS -Dorg.apache.jasper.compiler.Generator.STRICT_GET_PROPERTY=${Parser_STRICT} -Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=${Parser_STRICT} -Dorg.apache.jasper.compiler.Parser.STRICT_WHITESPACE=${Parser_STRICT}"
 
+# enables environmtvariable injection in tomcat config iles
+export CATALINA_OPTS="$CATALINA_OPTS -Dorg.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.EnvironmentPropertySource"
 
 # enabled assertions on test.
 if [ "$ENVIRONMENT" = "test" ] ; then
