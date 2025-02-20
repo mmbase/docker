@@ -14,6 +14,7 @@ gdate() {
   date +%Y-%m-%dT%H:%M:%S.%3N
 }
 
+mkdir -p ${CATALINA_LOGS}
 echo "$(gdate) Starting $0" >> ${APPLICATION_OUT}
 trap stop SIGTERM
 
