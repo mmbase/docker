@@ -1,8 +1,11 @@
 
 .INTERMEDIATE: %.md %.xml README.md
 .PHONY: explore build
-VERSION=latest
-REGISTRY=
+VERSION?=latest
+# REGISTRY is passed as a build argument when using 'build' target. Default it is ghcr.io/ in the images
+REGISTRY?=
+NAME?=UNSET
+PORTS?=
 #REGISTRY=ghcr.io/
 
 
@@ -36,7 +39,7 @@ explore: build work data  ## explore the docker image
 	docker run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data $(NAME):$(VERSION)
 
 run: build work data  ## run the docker image
-	docker run -it -v $(PWD)/work:/work  -v $(PWD)/data:/data $(NAME):$(VERSION)
+	docker run -it $(PORTS) -v $(PWD)/work:/work  -v $(PWD)/data:/data $(NAME):$(VERSION)
 
 explore_published: work data  ## explore the docker image from ghcr.io
 	docker run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data ghcr.io/$(NAME):$(VERSION)

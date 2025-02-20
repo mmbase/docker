@@ -38,7 +38,7 @@ start() {
     echo "Tomcat version has changed from $prev_version to $TOMCAT_VERSION. Cleaning work dir"
     rm -rf "$CATALINA_WORK/*"
   fi
-  echo ${TOMCAT_VERSION} > ${version_file}
+  echo ${TOMCAT_VERSION} > $version_file
   echo version:
   cat $version_file
 
