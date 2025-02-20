@@ -38,7 +38,7 @@ RUN echo "dash dash/sh boolean false" | debconf-set-selections &&  dpkg-reconfig
   ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
   dpkg-reconfigure --frontend noninteractive tzdata && \
   locale-gen nl_NL && \
-  mkdir -p /work
+  mkdir -p /work && mkdir -p /data
 
 
 # With bearable key bindings:

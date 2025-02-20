@@ -31,13 +31,18 @@ pushrm: README.md docker  ## Update the README.md on dockerhub.
 %.md: %.xml  ## create markdown from docbook
 	pandoc -f docbook -t gfm $< -o $@
 
-explore: build  ## explore the docker image
-	mkdir -p data
-	docker run -it --entrypoint bash -v $(PWD)/data:/data $(NAME):$(VERSION)
+explore: build work data  ## explore the docker image
+	mkdir -p work
+	docker run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data $(NAME):$(VERSION)
 
-root: build  ## explore the docker image as root
+root: build  work data ## explore the docker image as root
+	docker run -it --entrypoint bash -u root -v $(PWD)/work:/work -v $(PWD)/data:/data $(NAME):$(VERSION)
+
+work:
+	mkdir -p work
+
+data:
 	mkdir -p data
-	docker run -it --entrypoint bash -u root -v $(PWD)/data:/data $(NAME):$(VERSION)
 
 clean: ## clean
 	rm -f docker pushrm pushimage README.xml README.md
