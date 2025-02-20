@@ -25,7 +25,7 @@ ENV TZ=Europe/Amsterdam
 ENV PGTZ=Europe/Amsterdam
 ENV HISTFILE=/data/.bash_history
 ENV PSQL_HISTORY=/data/.pg_history
-ENV PSQL_EDITOR=/usr/bin/vi
+#ENV PSQL_EDITOR=/usr/bin/vi
 ENV LESSHISTFILE=/data/.lesshst
 
 
@@ -38,7 +38,7 @@ RUN echo "dash dash/sh boolean false" | debconf-set-selections &&  dpkg-reconfig
   ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
   dpkg-reconfigure --frontend noninteractive tzdata && \
   locale-gen nl_NL && \
-  mkdir -p /data
+  mkdir -p /work
 
 
 # With bearable key bindings:
@@ -51,6 +51,7 @@ COPY exrc /.exrc
 # Clean up default /etc/bash.bashrc a bit (no call to groups)
 COPY bash.bashrc /etc/bash.bashrc
 
+WORKDIR /work
 ENTRYPOINT ["/bin/bash"]
 
 LABEL org.mmbase.authors="michiel@mmbase.org"
