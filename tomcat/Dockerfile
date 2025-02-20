@@ -1,4 +1,6 @@
-FROM ghcr.io/mmbase/env:latest
+ARG REGISTRY=ghcr.io/
+
+FROM ${REGISTRY}mmbase/env:latest
 
 ENV TOMCAT_VERSION=9.0.100
 ENV CATALINA_BASE=/catalina-base
@@ -12,7 +14,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install inotify-tools unz
 # We want to split off catalina base, default it's catalina_home
 ADD catalina_base ${CATALINA_BASE}/
 
-RUN curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | tar zxf - && \
+RUN cd / && curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | tar zxf - && \
     ln -s apache-tomcat-$TOMCAT_VERSION ${CATALINA_HOME} && \
     find ${CATALINA_HOME} -type d -exec chmod o+x {} + && \
     chmod o+x ${CATALINA_HOME}/bin/*.sh && \

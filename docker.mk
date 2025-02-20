@@ -1,7 +1,9 @@
 
 .INTERMEDIATE: %.md %.xml README.md
-.PHONY: explore
-VERSION=dev
+.PHONY: explore build
+VERSION=latest
+REGISTRY=
+#REGISTRY=ghcr.io/
 
 
 help:     ## Show this help.
@@ -15,8 +17,7 @@ build_push: Dockerfile ../docker.mk  ## build docker image and push (multiplatfo
 	touch $@
 
 build: Dockerfile ../docker.mk  ## build docker image, no push, current platform. Handy for local testing
-	docker build -t $(NAME):$(VERSION) .
-	touch $@
+	docker build --build-arg REGISTRY=$(REGISTRY) -t $(NAME):$(VERSION) .
 
 
 #https://github.com/christian-korneck/docker-pushrm
@@ -32,17 +33,22 @@ pushrm: README.md docker  ## Update the README.md on dockerhub.
 	pandoc -f docbook -t gfm $< -o $@
 
 explore: build work data  ## explore the docker image
-	mkdir -p work
 	docker run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data $(NAME):$(VERSION)
+
+run: build work data  ## run the docker image
+	docker run -it -v $(PWD)/work:/work  -v $(PWD)/data:/data $(NAME):$(VERSION)
+
+explore_published: work data  ## explore the docker image from ghcr.io
+	docker run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data ghcr.io/$(NAME):$(VERSION)
 
 root: build  work data ## explore the docker image as root
 	docker run -it --entrypoint bash -u root -v $(PWD)/work:/work -v $(PWD)/data:/data $(NAME):$(VERSION)
 
 work:
-	mkdir -p work
+	mkdir -p $@
 
 data:
-	mkdir -p data
+	mkdir -p $@
 
 clean: ## clean
 	rm -f docker pushrm pushimage README.xml README.md

@@ -1,4 +1,6 @@
-FROM ghcr.io/mmbase/env:latest
+ARG REGISTRY=ghcr.io/
+
+FROM ${REGISTRY}mmbase/env:latest
 
 ARG MAVEN_VERSION=3.8.8
 
