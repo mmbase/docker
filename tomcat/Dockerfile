@@ -8,7 +8,7 @@ ENV CATALINA_HOME=/tomcat
 
 #ENV org.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.Digester$EnvironmentPropertySource.
 
-RUN apt-get update && apt-get -y upgrade && apt-get -y install inotify-tools unzip apache2-utils && \
+RUN apt-get update && apt-get -y upgrade && apt-get -y install inotify-tools unzip apache2-utils psmisc && \
     apt-get clean && rm -rf /var/cache/apt/lists
 
 # We want to split off catalina base, default it's catalina_home
@@ -20,7 +20,7 @@ RUN cd / && curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSIO
     chmod o+x ${CATALINA_HOME}/bin/*.sh && \
     curl https://repo1.maven.org/maven2/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2.jar -o ${CATALINA_HOME}/lib/javax.mail-1.6.2.jar
 
-EXPOSE 8080
+EXPOSE 8080 8000 3000
 WORKDIR $CATALINA_BASE
 
 ENTRYPOINT ["/catalina-base/bin/start.sh"]

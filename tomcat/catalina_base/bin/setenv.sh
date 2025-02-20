@@ -5,7 +5,6 @@ LANG=nl
 LC_ALL=nl_NL.iso88591
 LC_CTYPE=iso88591
 
-
 # find out limit of current pod:
 #limit=`cat /sys/fs/cgroup/memory/memory.limit_in_bytes`
 # Substract 1.5G some for non heap useage

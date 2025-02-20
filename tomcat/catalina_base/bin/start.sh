@@ -9,7 +9,6 @@ APPLICATION_OUT=${CATALINA_LOGS}/application.out
 CATALINA_WORK=${CATALINA_BASE}/work
 CATALINA_SH=${CATALINA_HOME}/bin/catalina.sh
 
-source ${CATALINA_BASE}/bin/setenv.sh
 
 gdate() {
   date +%Y-%m-%dT%H:%M:%S.%3N
@@ -64,8 +63,10 @@ start() {
        ln -f $(ls -rt "$CATALINA_LOGS"/localhost.log.* | tail  -n1) $CATALINA_LOGS/localhost.log
      fi
    done
-   ) &
+   ) & echo "awaiting tail $tailPid" ;
    wait $tailPid
+   echo ready
+   stop
 }
 
 stop() {
