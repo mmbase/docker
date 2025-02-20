@@ -44,7 +44,7 @@ RUN echo Catalina base: ${CATALINA_BASE} && \
     (cd ${CATALINA_HOME} && rm -rf temp && rm -rf logs) && \
   mkdir -p /data/logs && \
   chmod 2775 /data /data/logs /work && \
-  (cd ${CATALINA_BASE} && ln -s /data/logs logs && ls -s /work work) && \
+  (cd ${CATALINA_BASE} && ln -s /data/logs logs && rm -rf work && ln -s /work work) && \
   sed -E -i "s|^(tomcat.util.scan.StandardJarScanFilter.jarsToScan[ \t]*=)(.*)$|\1${JARS_TO_SCAN}|g"  ${CATALINA_BASE}/conf/catalina.properties && \
   mkdir ${CATALINA_BASE}/lib && \
   (echo -e "mmbase/tomcat git version=${CI_COMMIT_SHA}\t${CI_COMMIT_REF_NAME}\t${CI_COMMIT_TIMESTAMP}\t${CI_COMMIT_TITLE}") > /DOCKER.BUILD && \
