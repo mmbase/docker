@@ -70,7 +70,7 @@ fi
 export CATALINA_OPTS="$CATALINA_OPTS -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dorg.apache.jasper.runtime.BodyContentImpl.USE_POOL=true -Dorg.apache.jasper.runtime.BodyContentImpl.BUFFER_SIZE=${BodyContentImpl_BUFFER_SIZE}"
 
 if [ -z "$Parser_STRICT" ] ; then
-  Parser_STRICT=true
+  Parser_STRICT=false
 fi
 if [ "$Parser_STRICT" = "true" ] ; then
   NOT_STRICT=false
