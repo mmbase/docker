@@ -12,5 +12,7 @@ RUN cd / && curl  https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binari
 
 ENTRYPOINT ["/usr/local/bin/mvn"]
 
+USER maven
+
 LABEL org.mmbase.authors="michiel@mmbase.org"
 LABEL org.mmbase.description="Docker image for building MMBase (at github). Installs nodejs and maven"
