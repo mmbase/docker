@@ -1,8 +1,8 @@
 ARG REGISTRY=ghcr.io/
 
-FROM ${REGISTRY}mmbase/env:latest
+FROM ${REGISTRY}mmbase/env:1
 
-ENV TOMCAT_VERSION=9.0.100
+ENV TOMCAT_VERSION=9.0.107
 ENV CATALINA_BASE=/catalina-base
 ENV CATALINA_HOME=/tomcat
 
