@@ -2,7 +2,7 @@ ARG REGISTRY=ghcr.io/
 
 FROM ${REGISTRY}mmbase/env:latest
 
-ARG MAVEN_VERSION=3.8.8
+ARG MAVEN_VERSION=3.9.10
 
 RUN apt-get -y update && apt-get -y install nodejs git make gpg && apt-get clean && rm -rf /var/cache/apt/lists && apt-get -y auto-remove
 
