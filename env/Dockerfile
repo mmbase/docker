@@ -1,4 +1,4 @@
-FROM eclipse-temurin:8u442-b06-jdk-noble
+FROM eclipse-temurin:8u452-b09-jdk-noble
 
 # avoid warnings about that from debconf
 ARG DEBIAN_FRONTEND=noninteractive
