@@ -1,6 +1,6 @@
 ARG REGISTRY=ghcr.io/
 
-FROM ${REGISTRY}mmbase/env:latest
+FROM ${REGISTRY}mmbase/env:2
 
 ARG MAVEN_VERSION=3.9.10
 
@@ -12,7 +12,7 @@ RUN cd / && curl  https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binari
 
 ENTRYPOINT ["/usr/local/bin/mvn"]
 
-USER maven
+#USER maven
 
 LABEL org.mmbase.authors="michiel@mmbase.org"
 LABEL org.mmbase.description="Docker image for building MMBase (at github). Installs nodejs and maven"
