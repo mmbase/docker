@@ -1,11 +1,7 @@
 = MMBase Docker Images
 :toc:
 
-ifdef::env-github[]
 
-NOTE: Sadly, https://github.com/github/markup/issues/1095[Github markup doesn't support includes], so the following doesn't quite look as intended
-
-endif::[]
 
 I created a few docker images to ease running and building MMBase in these new ages.
 
