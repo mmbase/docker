@@ -14,6 +14,9 @@ RUN cd / && curl  https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binari
     chown -R runner:runner /home/runner
 
 
+# This makes ${USER.HOME} /
+ENV HOME=/home/runner
+
 USER runner
 
 
