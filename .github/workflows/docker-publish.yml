@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        directory: [ env, ffmeg, build, tomcat, example ]
+        directory: [ env, ffmpeg, build, tomcat, example ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
