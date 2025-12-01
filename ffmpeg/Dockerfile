@@ -1,4 +1,4 @@
-FROM eclipse-temurin:8u452-b09-jdk-noble AS buildffmeg
+FROM eclipse-temurin:8u472-b08-jdk-noble
 
 # we need ffmpeg for streams contribution. This is the most expensive step. Do it first.
 RUN apt-get -y update && apt-get -y install git make gcc nasm pkg-config libx264-dev libxext-dev libxfixes-dev zlib1g-dev && \

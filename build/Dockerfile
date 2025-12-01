@@ -1,6 +1,7 @@
 ARG REGISTRY=ghcr.io/
+ARG TAG=latest
 
-FROM ${REGISTRY}mmbase/env:2
+FROM ${REGISTRY}mmbase/env:${TAG}
 
 ARG MAVEN_VERSION=3.9.11
 
