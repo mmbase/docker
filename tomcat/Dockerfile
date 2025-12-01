@@ -78,8 +78,8 @@ ONBUILD ARG CI_COMMIT_REF_NAME
 ONBUILD ARG CI_COMMIT_SHA
 ONBUILD ARG CI_COMMIT_TITLE
 ONBUILD ARG CI_COMMIT_TIMESTAMP
-ONBUILD ADD target/*${PROJECT_VERSION}.war /tmp/app.war
 
+ONBUILD ADD target/*${PROJECT_VERSION}.war /tmp/app.war
 
 # if clustering, it also makes some sense to have a peristent work dir (to write sessions in)
 ONBUILD RUN (\
