@@ -2,7 +2,7 @@ ARG REGISTRY=ghcr.io/
 
 FROM ${REGISTRY}mmbase/env:2
 
-ENV TOMCAT_VERSION=9.0.107
+ENV TOMCAT_VERSION=9.0.112
 ENV CATALINA_BASE=/catalina-base
 ENV CATALINA_HOME=/tomcat
 
@@ -22,6 +22,12 @@ RUN cd / && curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSIO
 
 EXPOSE 8080 8000 3000
 WORKDIR $CATALINA_BASE
+
+ENV HISTFILE=/data/.bash_history
+ENV PSQL_HISTORY=/data/.pg_history
+#ENV PSQL_EDITOR=/usr/bin/vi
+ENV LESSHISTFILE=/data/.lesshst
+
 
 ENTRYPOINT ["/catalina-base/bin/start.sh"]
 
