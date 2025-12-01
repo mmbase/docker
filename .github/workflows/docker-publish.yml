@@ -23,17 +23,19 @@ jobs:
       packages: write
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
-        directory: [ env, ffmpeg, build, tomcat, example ]
+        directory: [ ffmpeg, env, build, tomcat, example ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Set variables
         id: vars
         run: |
           commit_timestamp=$(git show -s --format="%ci" ${{github.sha}})
           echo commit $commit_timestamp
           echo "commit_timestamp=${commit_timestamp}" >> "$GITHUB_OUTPUT"
+
         shell: bash
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -69,3 +71,4 @@ jobs:
             CI_COMMIT_SHA=${{ github.sha }}
             CI_COMMIT_TITLE=${{ github.event.head_commit.message }}
             CI_COMMIT_TIMESTAMP=${{ steps.vars.outputs.commit_timestamp }}
+            TAG=${{ github.ref_name == github.event.repository.default_branch && 'latest' || github.ref_name }}
