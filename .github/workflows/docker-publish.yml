@@ -26,7 +26,7 @@ jobs:
       max-parallel: 1
       matrix:
         #directory: [ ffmpeg, env, build, tomcat, example ]
-        directory: [ ffmpeg, env, build, tomcat ]
+        directory: [  env, build, tomcat ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
