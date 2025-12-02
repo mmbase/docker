@@ -1,4 +1,4 @@
-FROM eclipse-temurin:8u472-b08-jdk-noble
+FROM  eclipse-temurin:8u472-b08-jre-ubi9-minimal
 
 # avoid warnings about that from debconf
 ENV DEBIAN_FRONTEND=noninteractive
@@ -13,7 +13,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install imagemagick graphviz figlet libxrender1 libxtst6 libxi6 libx264-164  && \
     apt-get clean && rm -rf /var/cache/apt/lists
 
-COPY --from=ghcr.io/mmbase/ffmpeg:3 /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=ghcr.io/mmbase/ffmpeg:2 /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=ghcr.io/mmbase/ffmpeg:2 /DOCKER.BUILD /tmp/ffmpeg.DOCKER.BUILD
 
 # This makes ${USER.HOME} /
 ENV HOME=/
@@ -36,6 +37,7 @@ RUN echo "dash dash/sh boolean false" | debconf-set-selections &&  dpkg-reconfig
   locale-gen nl_NL && \
   mkdir -p /work && mkdir -p /data
 
+RUN cat /tmp/ffmpeg.DOCKER.BUILD >> /DOCKER.BUILD
 
 # With bearable key bindings:
 COPY inputrc /etc
