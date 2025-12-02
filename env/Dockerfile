@@ -13,8 +13,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install imagemagick graphviz figlet libxrender1 libxtst6 libxi6 libx264-164  && \
     apt-get clean && rm -rf /var/cache/apt/lists
 
-COPY --from=ghcr.io/mmbase/ffmpeg:2 /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
-COPY --from=ghcr.io/mmbase/ffmpeg:2 /DOCKER.BUILD /tmp/ffmpeg.DOCKER.BUILD
+COPY --from=ghcr.io/mmbase/ffmpeg:latest /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=ghcr.io/mmbase/ffmpeg:latest /DOCKER.BUILD /tmp/ffmpeg.DOCKER.BUILD
 
 # This makes ${USER.HOME} /
 ENV HOME=/
@@ -35,9 +35,10 @@ RUN echo "dash dash/sh boolean false" | debconf-set-selections &&  dpkg-reconfig
   ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
   dpkg-reconfigure --frontend noninteractive tzdata && \
   locale-gen nl_NL && \
-  mkdir -p /work && mkdir -p /data
+  mkdir -p /work && mkdir -p /data && \
+  cat
 
-RUN cat /tmp/ffmpeg.DOCKER.BUILD >> /DOCKER.BUILD
+
 
 # With bearable key bindings:
 COPY inputrc /etc
