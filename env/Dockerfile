@@ -1,4 +1,4 @@
-FROM  eclipse-temurin:8u472-b08-jre-ubi9-minimal
+FROM eclipse-temurin:8u472-b08-jdk-noble
 
 # avoid warnings about that from debconf
 ENV DEBIAN_FRONTEND=noninteractive
@@ -36,7 +36,7 @@ RUN echo "dash dash/sh boolean false" | debconf-set-selections &&  dpkg-reconfig
   dpkg-reconfigure --frontend noninteractive tzdata && \
   locale-gen nl_NL && \
   mkdir -p /work && mkdir -p /data && \
-  cat
+  cat /tmp/ffmpeg.DOCKER.BUILD >> /DOCKER.BUILD
 
 
 

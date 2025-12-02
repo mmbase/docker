@@ -8,3 +8,6 @@ $(SUBDIRS):
 	$(MAKE) -C $@ $(MAKECMDGOALS)
 
 .PHONY: $(TOPTARGETS) $(SUBDIRS)
+
+help: $(SUBDIRS)
+	$(MAKE) -C $< help
