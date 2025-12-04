@@ -1,10 +1,11 @@
 ARG TAG=latest
-FROM alpine AS getjar
+
+FROM debian:bookworm-slim AS getjar
 ARG VERSION=1.9-SNAPSHOT
 ARG GROUP=org/mmbase
 ARG ARTIFACT=mmbase-commandserver
 
-RUN apk update && apk add libxslt curl && \
+RUN apt-get update && apt-get install -y xsltproc curl && \
     curl -O https://raw.githubusercontent.com/mmprogrami/sonatype-snapshot-action/refs/heads/main/get-url.xslt
 
 RUN  \
