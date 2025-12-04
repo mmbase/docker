@@ -17,7 +17,7 @@ FROM ghcr.io/mmbase/env:${TAG}
 
 COPY --from=getjar /mmbase-commandserver.jar /mmbase-commandserver.jar
 
-ENTRYPOINT ["java", "-jar", "/mmbase-commandserver.jar" ]
+ENTRYPOINT ["java", "-jar", "/mmbase-commandserver.jar", "1679" ]
 
 RUN apt-get update && apt-get -y  install ffmpeg
 
