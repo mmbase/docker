@@ -54,6 +54,7 @@ jobs:
             type=ref,event=branch
             type=ref,event=tag
             type=raw,value=latest,enable={{is_tag}}
+            type=raw,value=snapshot,enable={{is_default_branch}}
             type=semver,pattern={{major}},event=tag
       - name: Build and push Docker image ${{ matrix.directory }}
         id: build-and-push
