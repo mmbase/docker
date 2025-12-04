@@ -18,17 +18,16 @@ RUN cd / && curl  https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binari
 # This makes ${USER.HOME} /
 ENV HOME=/work
 
-USER runner
-
-COPY settings.xml /work/.m2/settings.xml
-
-ENTRYPOINT ["/usr/local/bin/mvn"]
-
 COPY --from=ghcr.io/mmbase/ffmpeg:latest /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
 COPY --from=ghcr.io/mmbase/ffmpeg:latest /DOCKER.BUILD /tmp/ffmpeg.DOCKER.BUILD
 
 RUN cat /tmp/ffmpeg.DOCKER.BUILD >> /DOCKER.BUILD
 
+USER runner
+
+COPY settings.xml /work/.m2/settings.xml
+
+ENTRYPOINT ["/usr/local/bin/mvn"]
 
 #USER maven
 
