@@ -24,6 +24,10 @@ COPY settings.xml /work/.m2/settings.xml
 
 ENTRYPOINT ["/usr/local/bin/mvn"]
 
+COPY --from=ghcr.io/mmbase/ffmpeg:latest /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=ghcr.io/mmbase/ffmpeg:latest /DOCKER.BUILD /tmp/ffmpeg.DOCKER.BUILD
+
+
 #USER maven
 
 LABEL org.mmbase.authors="michiel@mmbase.org"
