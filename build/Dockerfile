@@ -27,6 +27,8 @@ ENTRYPOINT ["/usr/local/bin/mvn"]
 COPY --from=ghcr.io/mmbase/ffmpeg:latest /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
 COPY --from=ghcr.io/mmbase/ffmpeg:latest /DOCKER.BUILD /tmp/ffmpeg.DOCKER.BUILD
 
+RUN cat /tmp/ffmpeg.DOCKER.BUILD >> /DOCKER.BUILD
+
 
 #USER maven
 
