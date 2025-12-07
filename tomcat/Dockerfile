@@ -4,6 +4,9 @@ ARG TAG=latest
 FROM ${REGISTRY}mmbase/env:${TAG}
 
 ENV TOMCAT_VERSION=9.0.112
+ENV JAVA_MAIL_VERSION=1.6.2
+
+
 ENV CATALINA_BASE=/catalina-base
 ENV CATALINA_HOME=/tomcat
 
@@ -19,7 +22,7 @@ RUN cd / && curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSIO
     ln -s apache-tomcat-$TOMCAT_VERSION ${CATALINA_HOME} && \
     find ${CATALINA_HOME} -type d -exec chmod o+x {} + && \
     chmod o+x ${CATALINA_HOME}/bin/*.sh && \
-    curl https://repo1.maven.org/maven2/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2.jar -o ${CATALINA_HOME}/lib/javax.mail-1.6.2.jar
+    curl https://repo1.maven.org/maven2/com/sun/mail/javax.mail/${JAVA_MAIL_VERSION}/javax.mail-${JAVA_MAIL_VERSION}.jar -o ${CATALINA_HOME}/lib/javax.mail-$JAVA_MAIL_VERSION.jar
 
 EXPOSE 8080 8000 3000
 WORKDIR $CATALINA_BASE
