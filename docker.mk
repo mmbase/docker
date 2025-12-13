@@ -3,9 +3,10 @@
 .PHONY: explore build
 VERSION?=latest
 # REGISTRY is passed as a build argument when using 'build' target. Default it is ghcr.io/ in the images
-REGISTRY?=
+REGISTRY?=ghcr.io/
 NAME?=UNSET
 PORTS?=
+
 #REGISTRY=ghcr.io/
 
 
@@ -19,7 +20,8 @@ build_push: Dockerfile ../docker.mk  ## build docker image and push (multiplatfo
 	#docker build -t $(NAME):$(VERSION) .
 	touch $@
 
-build: Dockerfile ../docker.mk  ## build docker image, no push, current platform. Handy for local testing
+build: $(DEPS)  ## build docker image, no push, current platform. Handy for local testing
+	echo $(DEPS)
 	docker build --build-arg REGISTRY=$(REGISTRY) -t $(NAME):$(VERSION) .
 
 
@@ -54,4 +56,4 @@ data:
 	mkdir -p $@
 
 clean: ## clean
-	rm -f docker pushrm pushimage README.xml README.md
+	rm -rf docker pushrm pushimage README.xml README.md target maven-metadata.xml

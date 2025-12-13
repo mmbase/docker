@@ -5,7 +5,7 @@ FROM ${REGISTRY}mmbase/env:${TAG}
 
 ARG MAVEN_VERSION=3.9.11
 
-RUN apt-get -y update && apt-get -y install nodejs git make gpg && apt-get clean && rm -rf /var/cache/apt/lists && apt-get -y auto-remove
+RUN apt-get -y update && apt-get -y install nodejs git make gpg ant  && apt-get clean && rm -rf /var/cache/apt/lists && apt-get -y auto-remove
 
 # apt-get maven will install java 11, we have already a java
 RUN cd / && curl  https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz  | tar zxf - && \
