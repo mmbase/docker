@@ -27,7 +27,7 @@ jobs:
       max-parallel: 1
       matrix:
         java:
-          - '8u472-b08-noble'
+          - '8u472-b08-jre-noble'
           - '25.0.1_8-jre-noble'
         directory:
           - env
