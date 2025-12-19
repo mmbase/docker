@@ -1,4 +1,5 @@
-FROM eclipse-temurin:8u472-b08-jdk-noble
+ARG JAVA_VERSION=8u472-b08-noble
+FROM eclipse-temurin:${JAVA_VERSION}
 
 # avoid warnings about that from debconf
 ENV DEBIAN_FRONTEND=noninteractive

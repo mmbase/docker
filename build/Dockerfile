@@ -1,5 +1,5 @@
 ARG REGISTRY=ghcr.io/
-ARG TAG=latest
+ARG TAG=8-latest
 
 FROM ${REGISTRY}mmbase/env:${TAG}
 
