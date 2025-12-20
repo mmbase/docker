@@ -2,9 +2,9 @@
 .INTERMEDIATE: %.md %.xml README.md
 .PHONY: explore build
 #JV?=8u472-b08-jdk-noble
-#VERSION?=8-latest
+#VERSION?=latest-jdk8
 JV?=25.0.1_8-jdk-noble
-VERSION?=25-latest
+TAG?=latest-jdk25
 # REGISTRY is passed as a build argument when using 'build' target. Default it is ghcr.io/ in the images
 REGISTRY?=ghcr.io/
 
@@ -21,20 +21,17 @@ help:     ## Show this help.
 
 
 build_push: Dockerfile ../docker.mk  ## build docker image and push (multiplatform build)
-	docker buildx build --platform=linux/amd64,linux/arm64 -t $(REGISTRY)$(NAME):$(VERSION) . --push
-	#docker build -t $(NAME):$(VERSION) .
-	touch $@
+	docker buildx build --platform=linux/amd64,linux/arm64 -t $(REGISTRY)$(NAME):$(TAG) . --push
 
 build: $(DEPS)  ## build docker image, no push, current platform. Handy for local testing
 	echo $(DEPS)
-	docker build --build-arg REGISTRY=$(REGISTRY) --build-arg JAVA_VERSION=$(JV) --build-arg TAG=$(VERSION) -t $(REGISTRY)$(NAME):$(VERSION) .
+	docker build --build-arg REGISTRY=$(REGISTRY) --build-arg JAVA_VERSION=$(JV) --build-arg TAG=$(TAG) -t $(REGISTRY)$(NAME):$(TAG) .
 
 
 #https://github.com/christian-korneck/docker-pushrm
 pushrm: README.md docker  ## Update the README.md on dockerhub.
 	export DESCRIPTION=`docker inspect $(NAME) --format '{{ index .Config.Labels "org.mmbase.description"}}'` ; \
 	docker pushrm  $(NAME):latest --file $< -s "$${DESCRIPTION}"
-	touch $@
 
 %.xml: %.adoc
 	asciidoc -b docbook $<
@@ -43,16 +40,16 @@ pushrm: README.md docker  ## Update the README.md on dockerhub.
 	pandoc -f docbook -t gfm $< -o $@
 
 explore: build work data  ## explore the docker image
-	docker run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data $(NAME):$(VERSION)
+	docker run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data  $(REGISTRY)$(NAME):$(TAG)
 
 run: build work data  ## run the docker image
-	docker run -it $(PORTS) -v $(PWD)/work:/work  -v $(PWD)/data:/data $(NAME):$(VERSION)
+	docker run -it $(PORTS) -v $(PWD)/work:/work  -v $(PWD)/data:/data  $(REGISTRY)$(NAME):$(TAG)
 
 explore_published: work data  ## explore the docker image from ghcr.io
-	docker run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data ghcr.io/$(NAME):$(VERSION)
+	docker run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data $(REGISTRY)$(NAME):$(TAG)
 
 root: build  work data ## explore the docker image as root
-	docker run -it --entrypoint bash -u root -v $(PWD)/work:/work -v $(PWD)/data:/data $(NAME):$(VERSION)
+	docker run -it --entrypoint bash -u root -v $(PWD)/work:/work -v $(PWD)/data:/data $(REGISTRY)$(NAME):$(TAG)
 
 work:
 	mkdir -p $@
