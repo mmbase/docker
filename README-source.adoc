@@ -16,6 +16,7 @@ The images are tagged as follows:
 
 where `version` is:
 - `latest` : latest build from main branch
+- `<branch name>` : name of the branch, so 'main', because we didn't branch this yet.
 - `[0-9+]`: latest release, i.e. a tag of this repository. A simple integer.
 
 and `major java version` is either `8` or `25` currently.
