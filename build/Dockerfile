@@ -18,8 +18,8 @@ RUN cd / && curl  https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binari
 # This makes ${USER.HOME} /
 ENV HOME=/work
 
-COPY --from=ghcr.io/mmbase/ffmpeg:1 /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
-COPY --from=ghcr.io/mmbase/ffmpeg:1 /DOCKER.BUILD /tmp/ffmpeg.DOCKER.BUILD
+COPY --from=ghcr.io/mmbase/ffmpeg:4 /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=ghcr.io/mmbase/ffmpeg:4 /DOCKER.BUILD /tmp/ffmpeg.DOCKER.BUILD
 
 RUN cat /tmp/ffmpeg.DOCKER.BUILD >> /DOCKER.BUILD
 

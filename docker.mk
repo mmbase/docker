@@ -1,9 +1,11 @@
 
 .INTERMEDIATE: %.md %.xml README.md
 .PHONY: explore build
-VERSION?=latest
+VERSION?=8-latest
 # REGISTRY is passed as a build argument when using 'build' target. Default it is ghcr.io/ in the images
 REGISTRY?=ghcr.io/
+JV?=8u472-b08-jdk-noble
+
 NAME?=UNSET
 PORTS?=
 
@@ -22,7 +24,7 @@ build_push: Dockerfile ../docker.mk  ## build docker image and push (multiplatfo
 
 build: $(DEPS)  ## build docker image, no push, current platform. Handy for local testing
 	echo $(DEPS)
-	docker build --build-arg REGISTRY=$(REGISTRY) -t $(NAME):$(VERSION) .
+	docker build --build-arg REGISTRY=$(REGISTRY) --build-arg JAVA_VERSION=$(JV) --build-arg TAG=$(VERSION) -t $(NAME):$(VERSION) .
 
 
 #https://github.com/christian-korneck/docker-pushrm
