@@ -1,6 +1,13 @@
 
 # \[..\]: instruct bash that this does not take up any space (they are ANSI control characters)
-PS1="\[\033[4;1;36m\]\h|${POD_NAMESPACE##*-}:\[\033[0;1;34m\]\w\[\033[00m\]\$ "
+
+# in `env/bashrc`
+if [[ -n "${POD_NAMESPACE}" ]]; then
+  ns="|${POD_NAMESPACE##*-}"
+else
+  ns=""
+fi
+PS1="\[\033[4;1;36m\]\h${ns}:\[\033[0;1;34m\]\w\[\033[00m\]\$ "
 alias cl="cd ${CATALINA_BASE}/logs"
 alias cc="cd ${CATALINA_BASE}"
 export LS_OPTIONS='--color=auto'
@@ -17,7 +24,7 @@ export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 # convert millis since epoch or seconds since epoch (for small numbers) to iso date time
 # shows current time in millis since epoch if no input
 # handy since our json contains millis since epoch
-function ts() {
+function timestamp() {
     input=$1
     re='^[0-9]+L?$' # optionally postfixed with L (as a java constant)
     if [[ $input == "" ]] ; then
