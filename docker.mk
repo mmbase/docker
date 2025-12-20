@@ -1,10 +1,13 @@
 
 .INTERMEDIATE: %.md %.xml README.md
 .PHONY: explore build
-VERSION?=8-latest
+#JV?=8u472-b08-jdk-noble
+#VERSION?=8-latest
+JV?=25.0.1_8-jdk-noble
+VERSION?=25-latest
 # REGISTRY is passed as a build argument when using 'build' target. Default it is ghcr.io/ in the images
 REGISTRY?=ghcr.io/
-JV?=8u472-b08-jdk-noble
+
 
 NAME?=UNSET
 PORTS?=
