@@ -8,7 +8,20 @@ I created a few docker images to ease running and building MMBase in these new a
 They are/were published at https://hub.docker.com/orgs/mmbase/repositories[hub.docker.com], and currently also automatically (using gith actions) to https://github.com/orgs/mmbase/packages?repo_name=docker[ghcr.io]. 
 
 
+== Tagging
+
+The images are tagged as follows:
+
+`<version>-jdk<major java version>`
+
+where `version` is:
+- `latest` : latest build from main branch
+- `[0-9+]`: latest release, i.e. a tag of this repository. A simple integer.
+
+and `major java version` is either `8` or `25` currently.
+
 :leveloffset: +1
+
 
 include::env/README.adoc[]
 
