@@ -3,9 +3,9 @@
 
 
 
-I created a few docker images to ease running and building MMBase in these new ages.
+I created a few docker images to ease running and building MMBase in these new ages. Basically they are java 8, which is already a bit more modern then the latest releases back then. It shouldn't be a big issue to run on more recent jvm's so experimentally also java 25 images are built.
 
-They are/were published at https://hub.docker.com/orgs/mmbase/repositories[hub.docker.com], and currently also automatically (using gith actions) to https://github.com/orgs/mmbase/packages?repo_name=docker[ghcr.io]
+They are/were published at https://hub.docker.com/orgs/mmbase/repositories[hub.docker.com], and currently also automatically (using gith actions) to https://github.com/orgs/mmbase/packages?repo_name=docker[ghcr.io]. 
 
 
 :leveloffset: +1
