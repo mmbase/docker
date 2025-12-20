@@ -1,6 +1,7 @@
 ARG JAVA_VERSION=8u472-b08-jdk-noble
 FROM eclipse-temurin:${JAVA_VERSION}
 
+
 # avoid warnings about that from debconf
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -37,6 +38,12 @@ RUN echo "dash dash/sh boolean false" | debconf-set-selections &&  dpkg-reconfig
   mkdir -p /work && mkdir -p /data
 
 
+# compute Java major version at build time and expose it to interactive shells
+RUN JV=$(java -version 2>&1 | awk -F[\".] '/version/ {print ($2 == 1 ? $3 : $2)}') && \
+    echo "export JAVA_MAJOR=${JV}" > /etc/profile.d/java_version.sh && \
+    chmod 644 /etc/profile.d/java_version.sh  && \
+    (echo -e "mmbase/env git version=${CI_COMMIT_SHA}\t${CI_COMMIT_REF_NAME}\t${CI_COMMIT_TIMESTAMP}\t${CI_COMMIT_TITLE}") > /DOCKER.BUILD && \
+    (echo -n "mmbase/env build time=" ; date -Iseconds) >> /DOCKER.BUILD
 
 
 # With bearable key bindings:

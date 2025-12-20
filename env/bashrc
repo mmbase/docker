@@ -15,6 +15,7 @@ alias ls='ls $LS_OPTIONS'
 alias ll='ls -alF'
 alias rm='rm -i'
 
+source /etc/profile.d/java_version.sh
 export PROMPT_COMMAND='printf "\033]0;%s:%s\007" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}" '
 # See https://askubuntu.com/questions/67283/is-it-possible-to-make-writing-to-bash-history-immediate
 shopt -s histappend
