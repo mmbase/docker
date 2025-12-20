@@ -84,4 +84,4 @@ jobs:
             CI_COMMIT_SHA=${{ github.sha }}
             CI_COMMIT_TITLE=${{ github.event.head_commit.message }}
             CI_COMMIT_TIMESTAMP=${{ steps.vars.outputs.commit_timestamp }}
-            TAG=${{ steps.vars.outputs.tag }}-${{ github.ref_name == github.event.repository.default_branch && 'latest' || github.ref_name }}
+            TAG=${{ github.ref_name == github.event.repository.default_branch && 'latest' || github.ref_name }}-jdk${{ steps.vars.outputs.jdk_major }}
