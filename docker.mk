@@ -18,13 +18,13 @@ help:     ## Show this help.
 
 
 build_push: Dockerfile ../docker.mk  ## build docker image and push (multiplatform build)
-	docker buildx build --platform=linux/amd64,linux/arm64 -t $(NAME):$(VERSION) . --push
+	docker buildx build --platform=linux/amd64,linux/arm64 -t $(REGISTRY)$(NAME):$(VERSION) . --push
 	#docker build -t $(NAME):$(VERSION) .
 	touch $@
 
 build: $(DEPS)  ## build docker image, no push, current platform. Handy for local testing
 	echo $(DEPS)
-	docker build --build-arg REGISTRY=$(REGISTRY) --build-arg JAVA_VERSION=$(JV) --build-arg TAG=$(VERSION) -t $(NAME):$(VERSION) .
+	docker build --build-arg REGISTRY=$(REGISTRY) --build-arg JAVA_VERSION=$(JV) --build-arg TAG=$(VERSION) -t $(REGISTRY)$(NAME):$(VERSION) .
 
 
 #https://github.com/christian-korneck/docker-pushrm
