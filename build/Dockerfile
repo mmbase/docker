@@ -8,7 +8,7 @@ ARG MAVEN_VERSION=3.9.12
 RUN apt-get -y update && apt-get -y install nodejs git make gpg ant curl  && apt-get clean && rm -rf /var/cache/apt/lists && apt-get -y auto-remove
 
 # apt-get maven will install java 11, we have already a java
-RUN cd / && curl  https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz  | tar zxf - && \
+RUN cd / && curl  https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz  | tar zxf - && \
     ln -s /apache-maven-${MAVEN_VERSION}/bin/mvn /usr/local/bin/mvn && \
     useradd -ms /bin/bash -d /work runner && \
     mkdir -p /work/.m2 && \
