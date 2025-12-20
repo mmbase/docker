@@ -42,11 +42,11 @@ jobs:
           echo commit $commit_timestamp
           echo "commit_timestamp=${commit_timestamp}" >> "$GITHUB_OUTPUT"
           if [[ "${{ matrix.java }}" == *8u* ]]; then
-            tag=8
+            jdk_major=8
           else
-            tag=25
+            jdk_major=25
           fi
-          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          echo "jdk_major=${jdk_major}" >> "$GITHUB_OUTPUT"
         shell: bash
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -62,11 +62,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/mmbase/${{ matrix.directory }}
           tags: |
-            type=raw,value=${{ steps.vars.outputs.tag }}-${{ github.ref_name }},event=branch
-            type=raw,value=${{ steps.vars.outputs.tag }}-${{ github.ref_name }},event=tag  
-            type=raw,value=${{ steps.vars.outputs.tag }}-snapshot,enable={{is_default_branch}}
-            type=raw,value=${{ steps.vars.outputs.tag }}-latest,event=tag
-            type=semver,pattern=${{ steps.vars.outputs.tag }}-{{major}},event=tag
+            type=raw,value=${{ github.ref_name }}-jdk${{ steps.vars.outputs.jdk_major }},event=branch
+            type=raw,value=${{ github.ref_name }}-jdk${{ steps.vars.outputs.jdk_major }},event=tag  
+            type=raw,value=snapshot-jdk${{ steps.vars.outputs.jdk_major }},enable={{is_default_branch}}
+            type=raw,value=latest-jdk${{ steps.vars.outputs.jdk_major }},event=tag
+            type=semver,pattern={{major}}-jdk${{ steps.vars.outputs.jdk_major }},event=tag
       - name: Build and push Docker image ${{ matrix.directory }}
         id: build-and-push
         uses: docker/build-push-action@v6

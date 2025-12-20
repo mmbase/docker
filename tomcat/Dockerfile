@@ -35,7 +35,7 @@ RUN source /etc/profile.d/java_version.sh && echo "java major: ${JAVA_MAJOR}" &&
        echo "No need for activation"; \
     fi
 
-EXPOSE 8080 8000 3000
+EXPOSE 8080 8000
 WORKDIR $CATALINA_BASE
 
 ENV HISTFILE=/data/.bash_history
