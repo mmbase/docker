@@ -64,7 +64,6 @@ jobs:
           tags: |
             type=raw,value=${{ github.ref_name }}-jdk${{ steps.vars.outputs.jdk_major }},event=branch
             type=raw,value=${{ github.ref_name }}-jdk${{ steps.vars.outputs.jdk_major }},event=tag  
-            type=raw,value=snapshot-jdk${{ steps.vars.outputs.jdk_major }},enable={{is_default_branch}}
             type=raw,value=latest-jdk${{ steps.vars.outputs.jdk_major }},event=tag
             type=semver,pattern={{major}}-jdk${{ steps.vars.outputs.jdk_major }},event=tag
       - name: Build and push Docker image ${{ matrix.directory }}
