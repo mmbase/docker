@@ -4,9 +4,9 @@ ARG TAG=latest
 FROM ${REGISTRY}mmbase/env:${TAG}
 
 ENV TOMCAT_VERSION=9.0.113
-
  # Same as in official tomcat image, referred to in server.xml
 ENV TOMCAT_MAJOR=9
+
 ENV JAVA_MAIL_VERSION=1.6.2
 ENV JAVA_ACTIVATION=1.2.0
 
