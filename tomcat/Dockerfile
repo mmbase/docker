@@ -73,6 +73,9 @@ RUN echo Catalina base: ${CATALINA_BASE} && \
 
 
 
+RUN useradd mmbase
+
+
 # The onbuild commands to install the application when this image is overlaid
 
 ONBUILD ARG PROJECT_VERSION
@@ -127,5 +130,5 @@ ONBUILD RUN apt-get update && apt-get -y upgrade && \
   (echo -e "${NAME} git version=${CI_COMMIT_SHA}\t${CI_COMMIT_REF_NAME}\t${CI_COMMIT_TIMESTAMP}\t${CI_COMMIT_TITLE}") >> /DOCKER.BUILD && \
   (echo -n "${NAME} build time=" ; date -Iseconds) >> /DOCKER.BUILD
 
-
+ONBUILD USER mmbase
 
