@@ -5,6 +5,9 @@ ARG VERSION=1.9-SNAPSHOT
 ARG GROUP=org/mmbase
 ARG ARTIFACT=mmbase-commandserver
 
+ENV JPDA_ADDRESS=*:8001
+
+
 RUN apt-get update && apt-get install -y xsltproc curl && \
     curl -O https://raw.githubusercontent.com/mmprogrami/sonatype-snapshot-action/refs/heads/main/get-url.xslt
 
@@ -17,7 +20,7 @@ FROM ghcr.io/mmbase/env:${TAG}
 
 COPY --from=getjar /mmbase-commandserver.jar /mmbase-commandserver.jar
 
-ENTRYPOINT ["java", "-jar", "/mmbase-commandserver.jar", "1679" ]
+ENTRYPOINT ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${JPDA_ADDRESS}", "-jar", "/mmbase-commandserver.jar", "1679" ]
 
 RUN apt-get update && apt-get -y  install ffmpeg
 
