@@ -95,7 +95,7 @@ if [ -z "$JPDA_ADDRESS" ] ; then
   if [ "$JAVA_MAJOR" -gt 8 ] ; then
     export JPDA_ADDRESS=8000
   else
-    export JPDA_ADDRESS=*:8000
+    export JPDA_ADDRESS="*:8000"
   fi
 fi
 if [ -z "$JPDA_TRANSPORT" ] ; then

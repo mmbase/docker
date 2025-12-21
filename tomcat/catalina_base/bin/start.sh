@@ -48,7 +48,7 @@ start() {
   # TODO this is only tested with 'run', not with 'start'. If that would be a use case?
   ARGS=$([ "$CATALINA_ARGS" == "" ] && echo "jpda run" || echo "$CATALINA_ARGS")
   echo "$(gdate) Effective catalina arguments: '${ARGS}'" >> ${APPLICATION_OUT}
-  ${CATALINA_SH} ${ARGS} | (echo $! > ${CATALINA_PID}; /usr/bin/rotatelogs -L ${APPLICATION_OUT} -f  ${APPLICATION_OUT}.%Y-%m-%d 86400) &
+  ${CATALINA_SH} "${ARGS}" | (echo $! > ${CATALINA_PID}; /usr/bin/rotatelogs -L ${APPLICATION_OUT} -f  ${APPLICATION_OUT}.%Y-%m-%d 86400) &
 
    # Tail everything to stdout, so it will be picked up by kibana
    tail -F "${APPLICATION_OUT}" --pid $$  2>/dev/null & tailPid=$!
