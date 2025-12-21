@@ -24,7 +24,6 @@ build_push: Dockerfile ../docker.mk  ## build docker image and push (multiplatfo
 	docker buildx build --platform=linux/amd64,linux/arm64 -t $(REGISTRY)$(NAME):$(TAG) . --push
 
 build: $(DEPS)  ## build docker image, no push, current platform. Handy for local testing
-	echo $(DEPS)
 	docker build --build-arg REGISTRY=$(REGISTRY) --build-arg JAVA_VERSION=$(JV) --build-arg TAG=$(TAG) -t $(REGISTRY)$(NAME):$(TAG) .
 
 

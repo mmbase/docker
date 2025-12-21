@@ -21,8 +21,11 @@ ADD catalina_base ${CATALINA_BASE}/
 
 RUN cd / && curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz | tar zxf - && \
     ln -s apache-tomcat-$TOMCAT_VERSION ${CATALINA_HOME} && \
-    find ${CATALINA_HOME} -type d -exec chmod o+x {} + && \
-    chmod o+x ${CATALINA_HOME}/bin/*.sh && \
+    rm -rf ${CATALINA_HOME}/webapps.dist && \
+    (cd ${CATALINA_HOME} && rm -rf temp && rm -rf logs) && \
+    chmod -R g+r ${CATALINA_HOME}/conf && \
+    chmod g+x ${CATALINA_HOME}/conf && \
+    chmod -R o=g ${CATALINA_HOME}/ && \
     curl https://repo1.maven.org/maven2/com/sun/mail/javax.mail/${JAVA_MAIL_VERSION}/javax.mail-${JAVA_MAIL_VERSION}.jar -o ${CATALINA_HOME}/lib/javax.mail-$JAVA_MAIL_VERSION.jar
 
 
@@ -49,22 +52,20 @@ ENTRYPOINT ["/catalina-base/bin/start.sh"]
 LABEL org.mmbase.authors="michiel@mmbase.org"
 LABEL org.mmbase.description="MMBase environment with (an empty) tomcat"
 
+RUN useradd -u 10001 mmbase
+
 RUN echo Catalina base: ${CATALINA_BASE} && \
-  rm -rf ${CATALINA_HOME}/webapps.dist && \
-  chmod -R o-w ${CATALINA_HOME} && \
-  chmod -R g=o ${CATALINA_HOME} && \
   chmod -R o-w ${CATALINA_BASE} && \
   chmod -R g=o ${CATALINA_BASE} && \
   mkdir -p  ${CATALINA_BASE}/conf/Catalina/localhost && \
   chmod 755 ${CATALINA_BASE}/conf/Catalina/localhost && \
   for directory in 'webapps' 'work'; do \
-      mkdir -p ${CATALINA_BASE}/$directory && \
-      rm -rf ${CATALINA_HOME}/$directory; \
+      mkdir -p ${CATALINA_BASE}/$directory ; \
   done && \
   chmod 755 ${CATALINA_BASE}/webapps && \
-    (cd ${CATALINA_HOME} && rm -rf temp && rm -rf logs) && \
   mkdir -p /data/logs && \
   chmod 2775 /data /data/logs /work && \
+  chown mmbase:mmbase /data /data/logs /work && \
   (cd ${CATALINA_BASE} && ln -s /data/logs logs && rm -rf work && ln -s /work work) && \
   sed -E -i "s|^(tomcat.util.scan.StandardJarScanFilter.jarsToScan[ \t]*=)(.*)$|\1${JARS_TO_SCAN}|g"  ${CATALINA_BASE}/conf/catalina.properties && \
   mkdir ${CATALINA_BASE}/lib && \
@@ -73,9 +74,12 @@ RUN echo Catalina base: ${CATALINA_BASE} && \
 
 
 
-RUN useradd -u 1001 mmbase
+
+USER mmbase
 
 # The onbuild commands to install the application when this image is overlaid
+
+ONBUILD USER root
 
 ONBUILD ARG PROJECT_VERSION
 ONBUILD ARG NAME
