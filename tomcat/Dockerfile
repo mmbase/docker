@@ -73,8 +73,7 @@ RUN echo Catalina base: ${CATALINA_BASE} && \
 
 
 
-RUN useradd mmbase
-
+RUN useradd -u 1001 mmbase
 
 # The onbuild commands to install the application when this image is overlaid
 
