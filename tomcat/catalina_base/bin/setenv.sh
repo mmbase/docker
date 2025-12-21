@@ -91,7 +91,14 @@ fi
 
 
 # JPDA debugger  is arranged in catalina.sh
-export JPDA_ADDRESS=8000
+if [ -z "$JPDA_ADDRESS" ] ; then
+  if [ $JAVA_MAJOR -gt 8 ] ; then
+    export JPDA_ADDRESS=8000
+  else
+    export JPDA_ADDRESS=*:8000
+  fi
+fi
+
 export JPDA_TRANSPORT=dt_socket
 
 
