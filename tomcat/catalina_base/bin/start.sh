@@ -5,10 +5,13 @@
 
 CATALINA_PID=/tmp/tomcat.pid
 CATALINA_LOGS=${CATALINA_BASE}/logs
+
 APPLICATION_OUT=${CATALINA_LOGS}/application.out
 CATALINA_WORK=${CATALINA_BASE}/work
 CATALINA_SH=${CATALINA_HOME}/bin/catalina.sh
 
+mkdir -p ${CATALINA_LOGS}
+mkdir -p ${CATALINA_WORK}
 
 gdate() {
   date +%Y-%m-%dT%H:%M:%S.%3N
