@@ -1,10 +1,10 @@
-= mmbase/env:latest
+= mmbase/env:{tag}
 
 This is the base image which contains minimal tools to run MMBase.
 I.e. it is a debian image with java (8 or 25) and image magick.
 
 To run the streams application 'ffmpeg' is needed, which be installed additionally.
 
-Also a proper prompt and other convenience tools are installed.
+Also, a proper prompt and other convenience tools are installed.
 
 

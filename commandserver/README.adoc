@@ -1,0 +1,3 @@
+= mmbase/commandserver:{tag}
+
+This is an extension of `mmbase/env:{tag}` , which has the MMBase command server installed, and also ffmpeg.

@@ -1,13 +1,17 @@
-= mmbase/tomcat:latest
+= mmbase/tomcat:{tag}
 
 This image is based on `mmbase/env` and sets up also a tomcat. Without any application though. It basically serves as a base image for other images containing actual applications
 
 E.g.
 
-[source, Dockerfile]
+[source, Dockerfile, subs="attributes"]
 ----
-from ghcr.io/mmbase/tomcat:latest
+FROM  ghcr.io/mmbase/tomcat:{tag}
 
+ARG MARIA_DB_VERSION=3.5.7
 
-COPY target/oip-1.2-SNAPSHOT.war /tmp
+RUN  curl --fail -L https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/${MARIA_DB_VERSION}/mariadb-java-client-${MARIA_DB_VERSION}.jar -o ${CATALINA_BASE}/lib/mariadb-java-client-${MARIA_DB_VERSION}.jar
+
+# ON BUILD, the war in target/*.war will be used
+
 ----
