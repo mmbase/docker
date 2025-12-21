@@ -98,8 +98,9 @@ if [ -z "$JPDA_ADDRESS" ] ; then
     export JPDA_ADDRESS=*:8000
   fi
 fi
-
-export JPDA_TRANSPORT=dt_socket
+if [ -z "$JPDA_TRANSPORT" ] ; then
+  export JPDA_TRANSPORT=dt_socket
+fi
 
 
 # The complete container is dedicated to tomcat, so lets also use its tmp dir
