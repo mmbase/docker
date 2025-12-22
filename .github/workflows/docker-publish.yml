@@ -31,7 +31,6 @@ jobs:
           - env
           - build
           - tomcat
-          - commandserver
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
