@@ -33,8 +33,7 @@ RUN cd / && curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSIO
 
 
 
-RUN source /etc/profile.d/java_version.sh && echo "java major: ${JAVA_MAJOR}" && \
-    if [ "$JAVA_MAJOR" -ge "9" ] ; then \
+RUN if [ "$JAVA_MAJOR" -ge "9" ] ; then \
        echo "Downloading activation for java 9 or higher" && \
        curl https://repo1.maven.org/maven2/com/sun/activation/javax.activation/${JAVA_ACTIVATION}/javax.activation-${JAVA_ACTIVATION}.jar -o ${CATALINA_HOME}/lib/javax.activation-${JAVA_ACTIVATION}.jar ; \
     else \
