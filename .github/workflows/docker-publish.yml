@@ -62,8 +62,10 @@ jobs:
           images: ${{ env.REGISTRY }}/mmbase/${{ matrix.directory }}
           tags: |
             type=raw,value=${{ github.ref_name }}-jdk${{ steps.vars.outputs.jdk_major }},event=branch
-            type=raw,value=${{ github.ref_name }}-jdk${{ steps.vars.outputs.jdk_major }},event=tag  
+            type=raw,value=${{ github.ref_name }}-jdk${{ steps.vars.outputs.jdk_major }},event=tag
             type=raw,value=latest-jdk${{ steps.vars.outputs.jdk_major }},event=tag
+            type=raw,value=latest,enable=${{ steps.vars.outputs.jdk_major == '25' }},event=tag
+            type=raw,value=latest,enable=${{ steps.vars.outputs.jdk_major == '25' && github.ref == 'refs/heads/main' }}
             type=semver,pattern={{major}}-jdk${{ steps.vars.outputs.jdk_major }},event=tag
       - name: Build and push Docker image ${{ matrix.directory }}
         id: build-and-push
