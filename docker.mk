@@ -4,7 +4,8 @@
 #JV?=8u472-b08-jdk-noble
 #VERSION?=latest-jdk8
 JV?=25.0.1_8-jdk-noble
-TAG?=latest-jdk25
+MAJOR?=25
+TAG?=latest-jdk${MAJOR}
 # REGISTRY is passed as a build argument when using 'build' target. Default it is ghcr.io/ in the images
 REGISTRY?=ghcr.io/
 
@@ -12,6 +13,7 @@ REGISTRY?=ghcr.io/
 NAME?=UNSET
 PORTS?=
 
+ARGS=--build-arg REGISTRY=$(REGISTRY) --build-arg JAVA_VERSION=$(JV) --build-arg TAG=$(TAG)  --build-arg JAVA_MAJOR=$(MAJOR)
 #REGISTRY=ghcr.io/
 
 
@@ -21,10 +23,10 @@ help:     ## Show this help.
 
 
 build_push: Dockerfile ../docker.mk  ## build docker image and push (multiplatform build)
-	docker buildx build --platform=linux/amd64,linux/arm64 -t $(REGISTRY)$(NAME):$(TAG) . --push
+	docker buildx build --platform=linux/amd64,linux/arm64 $(ARGS) -t $(REGISTRY)$(NAME):$(TAG) . --push
 
 build: $(DEPS)  ## build docker image, no push, current platform. Handy for local testing
-	docker build --build-arg REGISTRY=$(REGISTRY) --build-arg JAVA_VERSION=$(JV) --build-arg TAG=$(TAG) -t $(REGISTRY)$(NAME):$(TAG) .
+	docker build $(ARGS) -t $(REGISTRY)$(NAME):$(TAG) .
 
 
 #https://github.com/christian-korneck/docker-pushrm

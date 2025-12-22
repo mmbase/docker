@@ -79,6 +79,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           build-args: |
             JAVA_VERSION=${{ matrix.java }}
+            JAVA_MAJOR=${{ steps.vars.outputs.jdk_major }}
             CI_COMMIT_REF_NAME=${{ github.ref_name }}
             CI_COMMIT_SHA=${{ github.sha }}
             CI_COMMIT_TITLE=${{ github.event.head_commit.message }}

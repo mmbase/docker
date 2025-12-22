@@ -92,6 +92,7 @@ fi
 
 # JPDA debugger  is arranged in catalina.sh
 if [ -z "$JPDA_ADDRESS" ] ; then
+  echo "Java major version=$JAVA_MAJOR"
   if [ "$JAVA_MAJOR" -gt 8 ] ; then
     export JPDA_ADDRESS=8000
   else
