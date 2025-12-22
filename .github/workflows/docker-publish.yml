@@ -73,8 +73,8 @@ jobs:
           context: ${{ matrix.directory }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/mmbase/${{ matrix.directory }}:buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/mmbase/${{ matrix.directory }}:buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/mmbase/buildcache:${{ matrix.directory }}
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/mmbase/buildcache:${{ matrix.directory }},mode=max
           platforms: linux/amd64,linux/arm64
           build-args: |
             JAVA_VERSION=${{ matrix.java }}
