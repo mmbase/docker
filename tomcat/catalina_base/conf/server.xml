@@ -1,7 +1,6 @@
 <Server port="8004" shutdown="SHUTDOWN" >
   <Service name="Catalina">
 
-
     <Connector port="8080"
                protocol="HTTP/1.1"
                connectionTimeout="${TOMCAT_CONNECTION_TIMEOUT}"
@@ -18,22 +17,17 @@
                allowBackslash="false"
                 />
 
+    <Connector protocol="AJP/1.3"
+               port="8009"
+               redirectPort="8443"
+               maxParameterCount="1000"
+    />
+
     <Engine name="Catalina" defaultHost="localhost" >
       <Valve
             className="org.apache.catalina.valves.AccessLogValve"
             directory="logs"  prefix="catalina_access_log" suffix=".txt"
             pattern='%h %S %l %u %t "%r" %s %b' />
-
-        <!--
-            To test virtual hosts.
-        <Host
-            name="cj.localhost"
-            debug="1"
-            appBase="webapps"
-            unpackWARs="false"
-            autoDeploy="false">
-        </Host>
-        -->
         <Host
             xmlValidation="false"
             xmlNamespaceAware="false"
@@ -41,11 +35,7 @@
             appBase="webapps"
             unpackWARs="false"
             autoDeploy="false">
-          <!--
-           <Listener className="org.apache.catalina.startup.UserConfig"
-                     directoryName="public_html"
-                     userClass="org.apache.catalina.startup.PasswdUserDatabase"/>
-           -->
+
         </Host>
     </Engine>
   </Service>
