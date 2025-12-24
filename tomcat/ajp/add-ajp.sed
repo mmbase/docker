@@ -4,6 +4,7 @@ s|<!--AJP-->|\
                proxyName="${PROXY_NAME}" \
                proxyPort="${PROXY_PORT}" \
                scheme="${SCHEME}" \
+               secretRequired="false" \
                redirectPort="8443" \
     />|
 

@@ -33,7 +33,7 @@
   <Environment name="mmbase/sendmail/mail.smtp.socketFactory.class" value="javax.net.ssl.SSLSocketFactory" type="java.lang.String" />
   <Environment name="mmbase/sendmail/mail.smtp.socketFactory.fallback" value="true" type="java.lang.String" />
 
-<Resourcei
+<Resource
       name="mail/Session"
       auth="Container"
       type="javax.mail.Session"
@@ -49,19 +49,6 @@
 
 
   -->
-  <Environment name="includeDebug" value="true" type="java.lang.Boolean" />
-
-  <Environment name="mmbase-config/log/log4j.xml" value="$CATALINA_BASE/log/consoe.log4j.xml" type="java.lang.String" />
-
-<Resource name="mail/Session"
-          auth="Container"
-          type="javax.mail.Session"
-          mail.smtp.host="smtp.gmail.com"
-          mail.smtp.port="465"
-          mail.smtp.auth="true"
-          mail.smtp.user="mihxiltest"
-          password="mmbase"
-          mail.smtp.starttls.enable="true"
-          mail.smtp.socketFactory.class="javax.net.ssl.SSLSocketFactory" />
+  <Environment name="mmbase-config/log/log4j.xml" value="$CATALINA_BASE/log/console.log4j.xml" type="java.lang.String" />
 
 </Context>
