@@ -15,12 +15,17 @@
                relaxedPathChars="${TOMCAT_RELAXED_PATH_CHARS}"
                encodedSolidusHandling="${TOMCAT_ENCODED_SOLIDUS_HANDLING}"
                allowBackslash="false"
+               proxyName="${PROXY_NAME}"
+               proxyPort="${PROXY_PORT}"
+               scheme="${SCHEME}"
                 />
 
     <Connector protocol="AJP/1.3"
-               port="8009"
+               port="${AJP_PORT}"
+               proxyName="${PROXY_NAME}"
+               proxyPort="${PROXY_PORT}"
+               scheme="${SCHEME}"
                redirectPort="8443"
-               maxParameterCount="1000"
     />
 
     <Engine name="Catalina" defaultHost="localhost" >

@@ -147,3 +147,19 @@ if [ -z ${TOMCAT_ACCEPT_COUNT+x} ]; then
   export TOMCAT_ACCEPT_COUNT=100
 fi
 
+if [ -z ${SCHEME+x} ]; then
+   export SCHEME=''
+fi
+
+if [ -z ${PROXY_PORT+x} ]; then
+   export PROXY_PORT=''
+fi
+
+if [ -z ${PROXY_HOST+x} ]; then
+   export PROXY_HOST=''
+fi
+
+if [ -z ${AJP_PORT+x} ]; then
+   export AJP_PORT='8010'
+fi
+
