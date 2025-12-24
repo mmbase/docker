@@ -10,12 +10,6 @@
 
   <WatchedResource></WatchedResource>
 
-  <Manager
-    className="org.apache.catalina.ha.session.DeltaManager"
-    expireSessionsOnShutdown="false"
-    notifyListenersOnReplication="true"
-    pathname="SESSIONS.ser" />
-
   <!-- Uncomment this to disable session persistence across Tomcat restarts -->
   <!--
       <Manager pathname="" />
