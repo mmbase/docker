@@ -148,7 +148,7 @@ if [ -z ${TOMCAT_ACCEPT_COUNT+x} ]; then
 fi
 
 if [ -z ${SCHEME+x} ]; then
-   export SCHEME=''
+   export SCHEME='https'
 fi
 
 if [ -z ${PROXY_PORT+x} ]; then

@@ -75,6 +75,8 @@ RUN echo Catalina base: ${CATALINA_BASE} && \
   (echo -n "mmbase/tomcat build time=" ; date -Iseconds) >> /DOCKER.BUILD
 
 
+# some files which might be needed during build
+COPY --parents clustering ajp /tmp/
 
 
 USER mmbase
@@ -103,7 +105,6 @@ ONBUILD ARG CI_COMMIT_TIMESTAMP
 
 ONBUILD ADD target/*${PROJECT_VERSION}.war /tmp/app.war
 
-# if clustering, it also makes some sense to have a peristent work dir (to write sessions in)
 ONBUILD RUN (\
      ls -lag /tmp/app.war && \
      if [ -z "$CONTEXT" ] ; then \
@@ -116,10 +117,12 @@ ONBUILD RUN (\
      unzip -q /tmp/app.war && \
      rm /tmp/app.war &&\
      if [ "$CLUSTERING" == "true" ] ; then  \
-         (cd ${CATALINA_BASE} && rm -r work && mkdir /data/work && chmod 2775 /data/work && ln -s /data/work work) && \
          cp -f /tmp/clustering/context.xml ${CATALINA_BASE}/conf/context.xml && \
          sed -E -i -f /tmp/clustering/add-cluster.sed  ${CATALINA_BASE}/conf/server.xml && \
          if [ "$COPY_TESTS" == "true" ] ; then cp /tmp/clustering/test-clustering.jspx .; fi ; \
+     fi && \
+     if [ "$AJP" == "true" ] ; then  \
+         sed -E -i -f /tmp/ajp/add-ajp.sed  ${CATALINA_BASE}/conf/server.xml ; \
      fi && \
      rm -rf /tmp/* \
      )
