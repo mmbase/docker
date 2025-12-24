@@ -20,9 +20,11 @@
                scheme="${SCHEME}"
                 />
 
-    <!-- AJP -->
+    <!--AJP-->
 
     <Engine name="Catalina" defaultHost="localhost" >
+      <!--CLUSTERING-->
+
       <Valve
             className="org.apache.catalina.valves.AccessLogValve"
             directory="logs"  prefix="catalina_access_log" suffix=".txt"

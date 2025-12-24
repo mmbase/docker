@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<Context>
-    <Manager
-      className="org.apache.catalina.ha.session.DeltaManager"
-      expireSessionsOnShutdown="false"
-      notifyListenersOnReplication="true"
-      pathname="SESSIONS.ser" />
-</Context>

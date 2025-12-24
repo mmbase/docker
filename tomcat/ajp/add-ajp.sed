@@ -1,4 +1,4 @@
-s|<!--CLUSTERING-->|\
+s|<!-- AJP -->|\
  <Connector protocol="AJP/1.3" \
                port="${AJP_PORT}" \
                proxyName="${PROXY_NAME}" \

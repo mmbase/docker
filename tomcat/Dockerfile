@@ -118,7 +118,6 @@ ONBUILD RUN (\
      unzip -q /tmp/app.war && \
      rm /tmp/app.war &&\
      if [ "$CLUSTERING" == "true" ] ; then  \
-         cp -f /tmp/clustering/context.xml ${CATALINA_BASE}/conf/context.xml && \
          sed -E -i -f /tmp/clustering/add-cluster.sed  ${CATALINA_BASE}/conf/server.xml && \
          if [ "$COPY_TESTS" == "true" ] ; then cp /tmp/clustering/test-clustering.jspx .; fi ; \
      fi && \
