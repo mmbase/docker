@@ -1136,6 +1136,20 @@
     <extension>zip</extension>
     <mime-type>application/zip</mime-type>
   </mime-mapping>
+
+  <!-- added for mmbase -->
+  <mime-mapping>
+    <extension>ttf</extension>
+    <mime-type>font/ttf</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>woff</extension>
+    <mime-type>font/woff</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>woff2</extension>
+    <mime-type>font/woff2</mime-type>
+  </mime-mapping>
   <!-- ==================== Default Welcome File List ===================== -->
   <!-- When a request URI refers to a directory, the default servlet looks  -->
   <!-- for a "welcome file" within that directory and, if present,          -->
