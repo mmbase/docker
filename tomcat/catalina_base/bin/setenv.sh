@@ -148,15 +148,16 @@ if [ -z ${TOMCAT_ACCEPT_COUNT+x} ]; then
 fi
 
 if [ -z ${SCHEME+x} ]; then
-   export SCHEME='https'
+  echo "No SCHEME set, leaving unset"
+
 fi
 
 if [ -z ${PROXY_PORT+x} ]; then
-   export PROXY_PORT=''
+  echo "No PROXY_PORT set, leaving unset"
 fi
 
 if [ -z ${PROXY_HOST+x} ]; then
-   export PROXY_HOST=''
+  echo "No PROXY_HOST set, leaving unset"
 fi
 
 if [ -z ${AJP_PORT+x} ]; then
