@@ -14,4 +14,7 @@
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+umask ${UMASK:-0002}
+
+
 
