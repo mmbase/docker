@@ -31,7 +31,13 @@ export CATALINA_OPTS="$CATALINA_OPTS ${GarbageCollectionOption} -XX:MaxRAMPercen
 # Heap dumps may be quite large, if you need to create them on out of memory, start the pod with environment variable HeapDumpPath=/data (or so)
 if [ ! -z "$HeapDumpPath" ] ; then
   mkdir -p "${HeapDumpPath}"
-  chmod 775 "${HeapDumpPath}"
+  if chmod 775 "${HeapDumpPath}" 2>/dev/null; then
+    : # success
+  else
+    # chmod failed; common causes: /data is a bind-mounted host dir, an NFS mount, or the process lacks privileges
+    echo "Warning: unable to set permissions on ${HeapDumpPath} (Operation not permitted)."
+    echo "Continuing without changing ${HeapDumpPath} permissions."
+  fi
   export CATALINA_OPTS="$CATALINA_OPTS -XX:HeapDumpPath=${HeapDumpPath} -XX:+HeapDumpOnOutOfMemoryError"
 fi
 
@@ -47,7 +53,13 @@ export CATALINA_OPTS="$CATALINA_OPTS -Djava.util.prefs.userRoot=/data/prefs"
 CATALINA_LOGS=${CATALINA_BASE}/logs
 
 mkdir -p /data/logs
-chmod 2775 /data/logs
+if chmod 2775 /data/logs 2>/dev/null; then
+  : # success
+else
+  # chmod failed; common causes: /data is a bind-mounted host dir, an NFS mount, or the process lacks privileges
+  echo "Warning: unable to set permissions on /data/logs (Operation not permitted)."
+  echo "Continuing without changing /data/logs permissions."
+fi
 
 # JMX
 JMX_PORT=$(${CATALINA_BASE}/bin/jmx.sh)
@@ -163,4 +175,6 @@ fi
 if [ -z ${AJP_PORT+x} ]; then
    export AJP_PORT='8010'
 fi
+
+
 
