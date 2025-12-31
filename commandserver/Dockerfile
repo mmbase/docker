@@ -1,7 +1,7 @@
 ARG TAG=latest
 
 FROM debian:bookworm-slim AS getjar
-ARG VERSION=1.9-SNAPSHOT
+ARG VERSION=1.9.7-rc1
 ARG GROUP=org/mmbase
 ARG ARTIFACT=mmbase-commandserver
 
