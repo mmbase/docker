@@ -8,12 +8,22 @@ MAJOR?=25
 TAG?=latest-jdk${MAJOR}
 # REGISTRY is passed as a build argument when using 'build' target. Default it is ghcr.io/ in the images
 REGISTRY?=ghcr.io/
-
+DOCKER?=docker
+#DOCKER?=podman
+BUILDAH_FORMAT=docker
 
 NAME?=UNSET
 PORTS?=
 
-ARGS=--build-arg REGISTRY=$(REGISTRY) --build-arg JAVA_VERSION=$(JV) --build-arg TAG=$(TAG)  --build-arg JAVA_MAJOR=$(MAJOR)
+ARGS=--build-arg REGISTRY=$(REGISTRY) \
+     --build-arg JAVA_VERSION=$(JV) \
+     --build-arg TAG=$(TAG)  \
+     --build-arg JAVA_MAJOR=$(MAJOR) \
+     --build-arg CI_COMMIT_REF_NAME=$(shell git rev-parse --abbrev-ref HEAD 2>/dev/null) \
+     --build-arg CI_COMMIT_SHA=$(shell git rev-parse --verify HEAD 2>/dev/null) \
+     --build-arg CI_COMMIT_SHA=$(shell git show -s --format=%cI HEAD 2>/dev/null) \
+     --build-arg CI_COMMIT_TITLE=$(shell git log -1 --pretty=%s HEAD 2>/dev/null)
+
 #REGISTRY=ghcr.io/
 
 
@@ -23,16 +33,16 @@ help:     ## Show this help.
 
 
 build_push: Dockerfile ../docker.mk  ## build docker image and push (multiplatform build)
-	docker buildx build --platform=linux/amd64,linux/arm64 $(ARGS) -t $(REGISTRY)$(NAME):$(TAG) . --push
+	$(DOCKER) buildx build --platform=linux/amd64,linux/arm64 $(ARGS) -t $(REGISTRY)$(NAME):$(TAG) . --push
 
 build: $(DEPS)  ## build docker image, no push, current platform. Handy for local testing
-	docker build $(ARGS) -t $(REGISTRY)$(NAME):$(TAG) .
+	$(DOCKER) build $(ARGS) -t $(REGISTRY)$(NAME):$(TAG) .
 
 
 #https://github.com/christian-korneck/docker-pushrm
 pushrm: README.md docker  ## Update the README.md on dockerhub.
-	export DESCRIPTION=`docker inspect $(NAME) --format '{{ index .Config.Labels "org.mmbase.description"}}'` ; \
-	docker pushrm  $(NAME):latest --file $< -s "$${DESCRIPTION}"
+	export DESCRIPTION=`$(DOCKER) inspect $(NAME) --format '{{ index .Config.Labels "org.mmbase.description"}}'` ; \
+	$(DOCKER) pushrm  $(NAME):latest --file $< -s "$${DESCRIPTION}"
 
 %.xml: %.adoc
 	asciidoc -b docbook $<
@@ -41,16 +51,16 @@ pushrm: README.md docker  ## Update the README.md on dockerhub.
 	pandoc -f docbook -t gfm $< -o $@
 
 explore: build work data  ## explore the docker image
-	docker run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data  $(REGISTRY)$(NAME):$(TAG)
+	$(DOCKER) run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data  $(REGISTRY)$(NAME):$(TAG)
 
 run: build work data  ## run the docker image
-	docker run -it $(PORTS) -v $(PWD)/work:/work  -v $(PWD)/data:/data  $(REGISTRY)$(NAME):$(TAG)
+	$(DOCKER) run -it $(PORTS) -v $(PWD)/work:/work  -v $(PWD)/data:/data  $(REGISTRY)$(NAME):$(TAG)
 
 explore_published: work data  ## explore the docker image from ghcr.io
-	docker run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data $(REGISTRY)$(NAME):$(TAG)
+	$(DOCKER) run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data $(REGISTRY)$(NAME):$(TAG)
 
 root: build  work data ## explore the docker image as root
-	docker run -it --entrypoint bash -u root -v $(PWD)/work:/work -v $(PWD)/data:/data $(REGISTRY)$(NAME):$(TAG)
+	$(DOCKER) run -it --entrypoint bash -u root -v $(PWD)/work:/work -v $(PWD)/data:/data $(REGISTRY)$(NAME):$(TAG)
 
 work:
 	mkdir -p $@

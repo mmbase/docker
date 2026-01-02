@@ -10,6 +10,10 @@ ENV TOMCAT_MAJOR=9
 ENV JAVA_MAIL_VERSION=1.6.2
 ENV JAVA_ACTIVATION=1.2.0
 
+ARG CI_COMMIT_REF_NAME
+ARG CI_COMMIT_SHA
+ARG CI_COMMIT_TITLE
+ARG CI_COMMIT_TIMESTAMP
 
 ENV CATALINA_BASE=/catalina-base
 ENV CATALINA_HOME=/tomcat
@@ -71,7 +75,7 @@ RUN echo Catalina base: ${CATALINA_BASE} && \
   (cd ${CATALINA_BASE} && ln -s /data/logs logs && rm -rf work && ln -s /work work) && \
   sed -E -i "s|^(tomcat.util.scan.StandardJarScanFilter.jarsToScan[ \t]*=)(.*)$|\1${JARS_TO_SCAN}|g"  ${CATALINA_BASE}/conf/catalina.properties && \
   mkdir ${CATALINA_BASE}/lib && \
-  (echo -e "mmbase/tomcat git version=${CI_COMMIT_SHA}\t${CI_COMMIT_REF_NAME}\t${CI_COMMIT_TIMESTAMP}\t${CI_COMMIT_TITLE}") > /DOCKER.BUILD && \
+  (echo "mmbase/tomcat git version=${CI_COMMIT_SHA}\t${CI_COMMIT_REF_NAME}\t${CI_COMMIT_TIMESTAMP}\t${CI_COMMIT_TITLE}") >> /DOCKER.BUILD && \
   (echo -n "mmbase/tomcat build time=" ; date -Iseconds) >> /DOCKER.BUILD
 
 

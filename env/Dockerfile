@@ -18,11 +18,14 @@ RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install imagemagick g
 
 ARG JAVA_MAJOR
 ENV JAVA_MAJOR=${JAVA_MAJOR}
+
+ARG CI_COMMIT_REF_NAME
+ARG CI_COMMIT_SHA
+ARG CI_COMMIT_REF_NAME
+ARG CI_COMMIT_TITLE
+
 # This makes ${USER.HOME} /
 ENV HOME=/
-
-# Have a workable shell
-SHELL ["/bin/bash", "-c"]
 
 ENV TZ=Europe/Amsterdam
 ENV PGTZ=Europe/Amsterdam
@@ -42,8 +45,8 @@ RUN echo "dash dash/sh boolean false" | debconf-set-selections &&  dpkg-reconfig
 
 # compute Java major version at build time and expose it to interactive shells
 RUN JV=$(java -version 2>&1 | awk -F[\".] '/version/ {print ($2 == 1 ? $3 : $2)}') && \
-    (echo -e "mmbase/env git version=${CI_COMMIT_SHA}\t${CI_COMMIT_REF_NAME}\t${CI_COMMIT_TIMESTAMP}\t${CI_COMMIT_TITLE}") > /DOCKER.BUILD && \
-    (echo -n "mmbase/env build time=" ; date -Iseconds) >> /DOCKER.BUILD
+    (echo  "mmbase/env git version=${CI_COMMIT_SHA}\t${CI_COMMIT_REF_NAME}\t${CI_COMMIT_TIMESTAMP}\t${CI_COMMIT_TITLE}") > /DOCKER.BUILD && \
+    (echo  -n "mmbase/env build time=" ; date -Iseconds) >> /DOCKER.BUILD
 
 
 # With bearable key bindings:
