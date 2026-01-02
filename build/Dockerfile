@@ -18,7 +18,7 @@ COPY --from=ghcr.io/mmbase/ffmpeg:4 /DOCKER.BUILD /tmp/ffmpeg.DOCKER.BUILD
 
 RUN cat /tmp/ffmpeg.DOCKER.BUILD >> /DOCKER.BUILD
 
-COPY settings.xml /work/.m2/settings.xml
+COPY settings.xml /root/.m2/settings.xml
 
 ENTRYPOINT ["/usr/local/bin/mvn"]
 WORKDIR /work
