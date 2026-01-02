@@ -8,8 +8,8 @@ MAJOR?=25
 TAG?=latest-jdk${MAJOR}
 # REGISTRY is passed as a build argument when using 'build' target. Default it is ghcr.io/ in the images
 REGISTRY?=ghcr.io/
-DOCKER?=docker
-#DOCKER?=podman
+#DOCKER?=docker
+DOCKER?=podman
 BUILDAH_FORMAT=docker
 
 NAME?=UNSET
@@ -22,7 +22,7 @@ ARGS=--build-arg REGISTRY=$(REGISTRY) \
      --build-arg CI_COMMIT_REF_NAME=$(shell git rev-parse --abbrev-ref HEAD 2>/dev/null) \
      --build-arg CI_COMMIT_SHA=$(shell git rev-parse --verify HEAD 2>/dev/null) \
      --build-arg CI_COMMIT_SHA=$(shell git show -s --format=%cI HEAD 2>/dev/null) \
-     --build-arg CI_COMMIT_TITLE=$(shell git log -1 --pretty=%s HEAD 2>/dev/null)
+     --build-arg CI_COMMIT_TITLE="$(shell git log -1 --pretty=%s HEAD 2>/dev/null)"
 
 #REGISTRY=ghcr.io/
 
@@ -51,7 +51,7 @@ pushrm: README.md docker  ## Update the README.md on dockerhub.
 	pandoc -f docbook -t gfm $< -o $@
 
 explore: build work data  ## explore the docker image
-	$(DOCKER) run -it --entrypoint bash -v $(PWD)/work:/work  -v $(PWD)/data:/data  $(REGISTRY)$(NAME):$(TAG)
+	$(DOCKER) run -it --entrypoint bash --user $(shell id -u):$(shell id -g) -v $(PWD)/work:/work  -v $(PWD)/data:/data  $(REGISTRY)$(NAME):$(TAG)
 
 run: build work data  ## run the docker image
 	$(DOCKER) run -it $(PORTS) -v $(PWD)/work:/work  -v $(PWD)/data:/data  $(REGISTRY)$(NAME):$(TAG)
