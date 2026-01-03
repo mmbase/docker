@@ -59,6 +59,9 @@ COPY exrc /.exrc
 # Clean up default /etc/bash.bashrc a bit (no call to groups)
 COPY bash.bashrc /etc/bash.bashrc
 
+ENV HISTFILE=/work/.bash_history
+ENV LESSHISTFILE=/work/.lesshst
+
 WORKDIR /work
 ENTRYPOINT ["/bin/bash"]
 

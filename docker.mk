@@ -51,7 +51,7 @@ pushrm: README.md docker  ## Update the README.md on dockerhub.
 	pandoc -f docbook -t gfm $< -o $@
 
 explore: build work data  ## explore the docker image
-	$(DOCKER) run -it --entrypoint bash --user $(shell id -u):$(shell id -g) -v $(PWD)/work:/work  -v $(PWD)/data:/data  $(REGISTRY)$(NAME):$(TAG)
+	$(DOCKER) run -it --entrypoint bash --user $(shell id -u):$(shell id -g) -v $(PWD)/work:/work  -v $(PWD)/data:/data  -v $(HOME)/.m2:/.m2  $(REGISTRY)$(NAME):$(TAG)
 
 run: build work data  ## run the docker image
 	$(DOCKER) run -it $(PORTS) -v $(PWD)/work:/work  -v $(PWD)/data:/data  $(REGISTRY)$(NAME):$(TAG)
