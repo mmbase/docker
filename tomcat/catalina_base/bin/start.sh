@@ -5,19 +5,17 @@
 
 CATALINA_PID=/tmp/tomcat.pid
 CATALINA_LOGS=${CATALINA_BASE}/logs
-
 APPLICATION_OUT=${CATALINA_LOGS}/application.out
 CATALINA_WORK=${CATALINA_BASE}/work
 CATALINA_SH=${CATALINA_HOME}/bin/catalina.sh
 
-mkdir -p "${CATALINA_LOGS}"
-mkdir -p "${CATALINA_WORK}"
 
 gdate() {
   date +%Y-%m-%dT%H:%M:%S.%3N
 }
-
-mkdir -p "${CATALINA_LOGS}"
+mkdir -p $(realpath "${CATALINA_LOGS}")
+mkdir -p $(realpath "${CATALINA_WORK}")
+echo "Logging to ${APPLICATION_OUT}"
 echo "$(gdate) Starting $0" >> "${APPLICATION_OUT}"
 # catch both SIGTERM (docker stop) and SIGINT (Ctrl-C)
 trap 'stop' SIGTERM SIGINT
