@@ -160,16 +160,18 @@ if [ -z ${TOMCAT_ACCEPT_COUNT+x} ]; then
 fi
 
 if [ -z ${SCHEME+x} ]; then
-  echo "No SCHEME set, leaving unset"
-
+  echo "No SCHEME set, setting to http"
+  export SCHEME="http"
 fi
 
 if [ -z ${PROXY_PORT+x} ]; then
   echo "No PROXY_PORT set, leaving unset"
+  export PROXY_PORT=""
 fi
 
 if [ -z ${PROXY_HOST+x} ]; then
   echo "No PROXY_HOST set, leaving unset"
+  export PROXY_HOST=""
 fi
 
 if [ -z ${AJP_PORT+x} ]; then

@@ -15,7 +15,7 @@
                relaxedPathChars="${TOMCAT_RELAXED_PATH_CHARS}"
                encodedSolidusHandling="${TOMCAT_ENCODED_SOLIDUS_HANDLING}"
                allowBackslash="false"
-               proxyName="${PROXY_NAME}"
+               proxyName="${PROXY_HOST}"
                proxyPort="${PROXY_PORT}"
                scheme="${SCHEME}"
                 />

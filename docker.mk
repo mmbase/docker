@@ -8,8 +8,8 @@ MAJOR?=25
 TAG?=latest-jdk${MAJOR}
 # REGISTRY is passed as a build argument when using 'build' target. Default it is ghcr.io/ in the images
 REGISTRY?=ghcr.io/
-#DOCKER?=docker
-DOCKER?=podman
+DOCKER?=docker
+#DOCKER?=podman
 BUILDAH_FORMAT=docker
 
 NAME?=UNSET
