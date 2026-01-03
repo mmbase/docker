@@ -120,6 +120,9 @@ ONBUILD RUN (\
      chmod 755 ${CONTEXT} && \
      cd ${CONTEXT} && \
      unzip -q /tmp/app.war && \
+     mv WEB-INF/data/* /data/ 2>/dev/null ; \
+     rm WEB-INF/data -rf && \
+     ln -s /data WEB-INF/data && \
      rm /tmp/app.war &&\
      if [ "$CLUSTERING" == "true" ] ; then  \
          sed -E -i -f /tmp/clustering/add-cluster.sed  ${CATALINA_BASE}/conf/server.xml && \
@@ -141,6 +144,10 @@ ONBUILD RUN apt-get update && apt-get -y upgrade && \
   (echo "${NAME} version=${PROJECT_VERSION}") >> /DOCKER.BUILD && \
   (echo -e "${NAME} git version=${CI_COMMIT_SHA}\t${CI_COMMIT_REF_NAME}\t${CI_COMMIT_TIMESTAMP}\t${CI_COMMIT_TITLE}") >> /DOCKER.BUILD && \
   (echo -n "${NAME} build time=" ; date -Iseconds) >> /DOCKER.BUILD
+
+
+
+
 
 ONBUILD USER mmbase
 
