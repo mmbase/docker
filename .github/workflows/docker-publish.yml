@@ -77,7 +77,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=${{ env.REGISTRY }}/mmbase/buildcache:${{ matrix.directory }}
           cache-to: type=registry,ref=${{ env.REGISTRY }}/mmbase/buildcache:${{ matrix.directory }},mode=max
-          platforms: linux/amd64,linux/arm64,linux/386
+          platforms: linux/amd64,linux/arm64
           build-args: |
             JAVA_VERSION=${{ matrix.java }}
             JAVA_MAJOR=${{ steps.vars.outputs.jdk_major }}
