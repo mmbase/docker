@@ -35,6 +35,10 @@ RUN cd / && curl https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSIO
     chmod -R o=g ${CATALINA_HOME}/ && \
     curl https://repo1.maven.org/maven2/com/sun/mail/javax.mail/${JAVA_MAIL_VERSION}/javax.mail-${JAVA_MAIL_VERSION}.jar -o ${CATALINA_HOME}/lib/javax.mail-$JAVA_MAIL_VERSION.jar
 
+# some files which might be needed during build
+COPY --parents clustering sed /tmp/
+
+
 
 
 RUN if [ "$JAVA_MAJOR" -ge "9" ] ; then \
@@ -42,7 +46,13 @@ RUN if [ "$JAVA_MAJOR" -ge "9" ] ; then \
        curl https://repo1.maven.org/maven2/com/sun/activation/javax.activation/${JAVA_ACTIVATION}/javax.activation-${JAVA_ACTIVATION}.jar -o ${CATALINA_HOME}/lib/javax.activation-${JAVA_ACTIVATION}.jar ; \
     else \
        echo "No need for activation"; \
+    fi; \
+    if [ "$JAVA_MAJOR" -ge "21" ] ; then \
+       sed -E -i -f /tmp/sed/virtual-threads.sed  ${CATALINA_BASE}/conf/server.xml ; \
+    else \
+       echo "java < 21" ; \
     fi
+
 
 EXPOSE 8080 8000
 WORKDIR $CATALINA_BASE
@@ -57,6 +67,8 @@ ENTRYPOINT ["/catalina-base/bin/start.sh"]
 
 LABEL org.mmbase.authors="michiel@mmbase.org"
 LABEL org.mmbase.description="MMBase environment with (an empty) tomcat"
+
+
 
 RUN useradd -u 10001 mmbase
 
@@ -78,9 +90,6 @@ RUN echo Catalina base: ${CATALINA_BASE} && \
   (echo "mmbase/tomcat git version=${CI_COMMIT_SHA}\t${CI_COMMIT_REF_NAME}\t${CI_COMMIT_TIMESTAMP}\t${CI_COMMIT_TITLE}") >> /DOCKER.BUILD && \
   (echo -n "mmbase/tomcat build time=" ; date -Iseconds) >> /DOCKER.BUILD
 
-
-# some files which might be needed during build
-COPY --parents clustering ajp /tmp/
 
 
 USER mmbase
@@ -125,11 +134,11 @@ ONBUILD RUN (\
      ln -s /data WEB-INF/data && \
      rm /tmp/app.war &&\
      if [ "$CLUSTERING" == "true" ] ; then  \
-         sed -E -i -f /tmp/clustering/add-cluster.sed  ${CATALINA_BASE}/conf/server.xml && \
+         sed -E -i -f /tmp/sed/add-cluster.sed  ${CATALINA_BASE}/conf/server.xml && \
          if [ "$COPY_TESTS" == "true" ] ; then cp /tmp/clustering/test-clustering.jspx .; fi ; \
      fi && \
      if [ "$AJP" == "true" ] ; then  \
-         sed -E -i -f /tmp/ajp/add-ajp.sed  ${CATALINA_BASE}/conf/server.xml ; \
+         sed -E -i -f /tmp/sed/add-ajp.sed  ${CATALINA_BASE}/conf/server.xml ; \
      fi && \
      rm -rf /tmp/* \
      )
