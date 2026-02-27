@@ -3,7 +3,7 @@ ARG TAG=latest
 
 FROM ${REGISTRY}mmbase/env:${TAG}
 
-ENV TOMCAT_VERSION=9.0.113
+ENV TOMCAT_VERSION=9.0.115
  # Same as in official tomcat image, referred to in server.xml
 ENV TOMCAT_MAJOR=9
 
@@ -48,9 +48,9 @@ RUN if [ "$JAVA_MAJOR" -ge "9" ] ; then \
        echo "No need for activation"; \
     fi; \
     if [ "$JAVA_MAJOR" -ge "21" ] ; then \
-       sed -E -i -f /tmp/sed/virtual-threads.sed  ${CATALINA_BASE}/conf/server.xml ; \
+       sed -E -i -f /tmp/sed/executor-virtual-threads.sed  ${CATALINA_BASE}/conf/server.xml ; \
     else \
-       echo "java < 21" ; \
+      sed -E -i -f /tmp/sed/executor.sed  ${CATALINA_BASE}/conf/server.xml ; \
     fi
 
 

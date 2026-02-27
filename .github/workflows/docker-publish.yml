@@ -24,9 +24,10 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
+        # see https://hub.docker.com/_/eclipse-temurin/tags
         java:
-          - '25.0.1_8-jdk-noble'
-          - '8u472-b08-jdk-noble'
+          - '25.0.2_10-jdk-noble'
+          - '8u482-b08-jdk-noble'
         directory:
           - env
           - build
