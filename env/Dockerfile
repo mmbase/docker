@@ -11,8 +11,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 # nodejs: build @ github
 # make: used to download samples in streams
 # unzip: used to unzip the war
+# less: everybody will use this to view files
 #
-RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install imagemagick graphviz figlet libxrender1 libxtst6 libxi6 libx264-164  && \
+RUN  apt-get -y update && apt-get -y upgrade && apt-get -y install imagemagick graphviz figlet libxrender1 libxtst6 libxi6 libx264-164 less  && \
     apt-get clean && rm -rf /var/cache/apt/lists
 
 
