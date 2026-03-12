@@ -108,7 +108,7 @@ ONBUILD ARG DOCLINK
 ONBUILD ENV DOCLINK=${DOCLINK}
 
 
-ONBUILD ARG JARS_TO_SCAN="standard-*, \
+ONBUILD ARG JARS_TO_SCAN="taglibs-*, \
 svg*.jar,\
 flag-icon*.jar,\
 mmbase-*.jar,\
