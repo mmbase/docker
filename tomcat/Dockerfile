@@ -3,7 +3,7 @@ ARG TAG=latest
 
 FROM ${REGISTRY}mmbase/env:${TAG}
 
-ENV TOMCAT_VERSION=9.0.116
+ENV TOMCAT_VERSION=9.0.117
  # Same as in official tomcat image, referred to in server.xml
 ENV TOMCAT_MAJOR=9
 
