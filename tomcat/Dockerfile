@@ -65,8 +65,8 @@ ENV LESSHISTFILE=/data/.lesshst
 
 ENTRYPOINT ["/catalina-base/bin/start.sh"]
 
-LABEL org.mmbase.authors="michiel@mmbase.org"
-LABEL org.mmbase.description="MMBase environment with (an empty) tomcat"
+LABEL org.opencontainers.image.authors="michiel@mmbase.org"
+LABEL org.opencontainers.image.description="MMBase environment with (an empty) tomcat"
 
 
 
