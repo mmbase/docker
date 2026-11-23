@@ -1,4 +1,4 @@
-ARG JAVA_VERSION=8u482-b08-jdk-noble
+ARG JAVA_VERSION=8u512-b09-jdk-noble
 FROM eclipse-temurin:${JAVA_VERSION}
 
 

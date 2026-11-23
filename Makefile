@@ -1,6 +1,6 @@
 
-JV25=25.0.2_10-jdk-noble
-JV8=8u482-b08-jdk-noble
+JV25=25.0.5.1_2-jdk-noble
+JV8=8u512-b09-jdk-noble
 JV?=$(JV25)
 TAG?=latest-jdk25
 REGISTRY?=ghcr.io/
